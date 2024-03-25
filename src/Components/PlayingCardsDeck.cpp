@@ -1,6 +1,5 @@
 #include "../../include/Components/PlayingCardsDeck.hpp"
 #include <algorithm>
-#include <iostream>
 
 void PlayingCardsDeck::createNewDeck() {
     deck.clear();

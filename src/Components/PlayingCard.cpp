@@ -1,31 +1,30 @@
 #include "../../include/Components/PlayingCard.hpp"
 
 
+PlayingCard::PlayingCard(int number, PlayingCardColor color) : number{number}, color{color} {}
 
-PlayingCard::PlayingCard(int number, PlayingCardColor color): number{number}, color{color} {}
 
-
-int PlayingCard::getNumber() const{
-    return this-> number;
+int PlayingCard::getNumber() const {
+    return this->number;
 }
 
-PlayingCardColor PlayingCard::getColor() const{
-    return this -> color;
+PlayingCardColor PlayingCard::getColor() const {
+    return this->color;
 }
 
-void PlayingCard::setShown(bool shown){
+void PlayingCard::setShown(bool shown) {
     this->shown = shown;
 }
 
-bool PlayingCard::isShown() const{
+bool PlayingCard::isShown() const {
     return this->shown;
 }
 
-std::string toString(const PlayingCard & card){
+std::string toString(const PlayingCard &card) {
     std::string toReturn;
     if (!card.isShown())
         return "Reversed Card";
-    switch (card.getNumber()){
+    switch (card.getNumber()) {
         case 11:
             toReturn = "Jack";
             break;
@@ -46,16 +45,16 @@ std::string toString(const PlayingCard & card){
     return toReturn;
 }
 
-std::string toString(const std::vector<PlayingCard> & hand){
+std::string toString(const std::vector<PlayingCard> &hand) {
     std::string message = "";
-    for (const auto & card: hand){
+    for (const auto &card: hand) {
         message += toString(card);
         message += ' ';
     }
     return message;
 }
 
-std::ostream & operator<<(std::ostream & os, const PlayingCard & card){
+std::ostream &operator<<(std::ostream &os, const PlayingCard &card) {
     os << toString(card);
     return os;
 }

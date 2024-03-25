@@ -1,10 +1,12 @@
 #include "../../include/Components/ChipsComponent.hpp"
 
-ChipsComponent::ChipsComponent(int owned):owned{owned}, bet{0} {}
-int ChipsComponent::getBet() const{
+ChipsComponent::ChipsComponent(int owned) : owned{owned}, bet{0} {}
+
+int ChipsComponent::getBet() const {
     return bet;
 }
-int ChipsComponent::getOwned() const{
+
+int ChipsComponent::getOwned() const {
     return owned;
 }
 
@@ -13,11 +15,12 @@ void ChipsComponent::doubleBet() {
     bet += bet;
 }
 
-void ChipsComponent::newBet(int bet){
-    this -> owned -= bet;
-    this -> bet = bet;
+void ChipsComponent::newBet(int bet) {
+    this->owned -= bet;
+    this->bet = bet;
 }
-void ChipsComponent::won(){
+
+void ChipsComponent::won() {
     owned += 2 * bet;
     bet = 0;
 }

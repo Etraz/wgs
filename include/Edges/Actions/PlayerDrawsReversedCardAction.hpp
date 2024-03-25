@@ -1,6 +1,7 @@
 #pragma once
+
 #include "Action.hpp"
 
-class PlayerDrawsReversedCardAction : public Action{
+class PlayerDrawsReversedCardAction : public Action {
     void run(ComponentProvider &) override;
 };

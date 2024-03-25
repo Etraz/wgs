@@ -24,7 +24,7 @@
 #include "include/Edges/Conditions/PlayerWonCondition.hpp"
 
 
-int main(int, char**){
+int main(int, char **) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
     HandsComponent handsComponent{};
@@ -57,13 +57,14 @@ int main(int, char**){
     AlwaysTrueCondition alwaysTrueCondition{};
     HandSizeUnderXCondition handSizeUnder3Condition{3};
     PlayerCanDoubleBetCondition playerCanDoubleBetCondition{};
-    AndCondition canDoubleCondition(dynamic_cast<Condition&>(handSizeUnder3Condition), dynamic_cast<Condition&>(playerCanDoubleBetCondition));
+    AndCondition canDoubleCondition(dynamic_cast<Condition &>(handSizeUnder3Condition),
+                                    dynamic_cast<Condition &>(playerCanDoubleBetCondition));
     BlackjackAtLeastXCondition playerBustedCondition{22};
-    NotCondition playerDidntBustedCondition(dynamic_cast<Condition&>(playerBustedCondition));
+    NotCondition playerDidntBustedCondition(dynamic_cast<Condition &>(playerBustedCondition));
     BlackjackAtLeastXCondition dealerToEndDrawingCondition{18};
-    NotCondition dealerToDrawCondition(dynamic_cast<Condition&>(dealerToEndDrawingCondition));
+    NotCondition dealerToDrawCondition(dynamic_cast<Condition &>(dealerToEndDrawingCondition));
     PlayerWonCondition playerWonCondition{};
-    NotCondition playerLostCondition(dynamic_cast<Condition&>(playerWonCondition));
+    NotCondition playerLostCondition(dynamic_cast<Condition &>(playerWonCondition));
 
 
     edges[0].push_back(Edge{"", getBetFromPlayerAction, alwaysTrueCondition, 1});
@@ -73,7 +74,7 @@ int main(int, char**){
     edges[4].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 5});
     edges[5].push_back(Edge{"", playerDrawsReversedCardAction, alwaysTrueCondition, 6});
     edges[6].push_back(Edge{"", changeToPlayerAction, alwaysTrueCondition, 7});
-    edges[7].push_back(Edge{"",  changeToPlayerAction, alwaysTrueCondition, 19});
+    edges[7].push_back(Edge{"", changeToPlayerAction, alwaysTrueCondition, 19});
     edges[19].push_back(Edge{"", sendHandsAction, alwaysTrueCondition, 8});
     edges[8].push_back(Edge{"HIT ", playerDrawsCardAction, alwaysTrueCondition, 9});
     edges[8].push_back(Edge{"DOUBLE ", doublePlayersBetAction, canDoubleCondition, 11});

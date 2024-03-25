@@ -1,12 +1,15 @@
 #pragma once
+
 #include "PlayingCard.hpp"
 #include <vector>
 
-class HandsComponent{
+class HandsComponent {
 private:
     std::vector<PlayingCard> players, dealers;
 public:
-    std::vector<PlayingCard> & getPlayersHand();
-    std::vector<PlayingCard> & getDealersHand();
+    std::vector<PlayingCard> &getPlayersHand();
+
+    std::vector<PlayingCard> &getDealersHand();
+
     void clear();
 };

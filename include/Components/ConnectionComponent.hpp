@@ -1,10 +1,12 @@
 #pragma once
+
 #include "../PlayerConnection.hpp"
 
-class ConnectionComponent{
+class ConnectionComponent {
 private:
-    PlayerConnection & connection;
+    PlayerConnection &connection;
 public:
     ConnectionComponent(PlayerConnection &);
+
     std::string sendMessage(std::string);
 };

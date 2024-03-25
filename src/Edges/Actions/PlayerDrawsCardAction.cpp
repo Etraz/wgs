@@ -1,6 +1,6 @@
 #include "../../../include/Edges/Actions/PlayerDrawsCardAction.hpp"
 
-void PlayerDrawsCardAction::run(ComponentProvider & componentProvider) {
+void PlayerDrawsCardAction::run(ComponentProvider &componentProvider) {
     auto card = componentProvider.getPlayingCardsDecks().getCard();
     if (componentProvider.isPlayerNext())
         componentProvider.getHandsComponent().getPlayersHand().push_back(card);

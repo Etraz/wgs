@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Condition.hpp"
 
 class PlayerCanDoubleBetCondition : public Condition {

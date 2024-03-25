@@ -1,6 +1,6 @@
 #include "../../../include/Edges/Actions/PlayerDrawsReversedCardAction.hpp"
 
-void PlayerDrawsReversedCardAction::run(ComponentProvider & componentProvider) {
+void PlayerDrawsReversedCardAction::run(ComponentProvider &componentProvider) {
     auto card = componentProvider.getPlayingCardsDecks().getCard();
     card.setShown(false);
     if (componentProvider.isPlayerNext())

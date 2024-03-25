@@ -1,15 +1,16 @@
 #pragma once
+
 #include "HandsComponent.hpp"
 #include "PlayingCardsDeck.hpp"
 #include "ChipsComponent.hpp"
 #include "ConnectionComponent.hpp"
 
-class ComponentProvider{
+class ComponentProvider {
 private:
-    HandsComponent & handsComponent;
-    PlayingCardsDeck & playingCardDeck;
-    ChipsComponent & chipsComponent;
-    ConnectionComponent & connectionComponent;
+    HandsComponent &handsComponent;
+    PlayingCardsDeck &playingCardDeck;
+    ChipsComponent &chipsComponent;
+    ConnectionComponent &connectionComponent;
     bool playerNext{true};
     bool gameToContinue{true};
 public:
@@ -21,11 +22,16 @@ public:
     bool isPlayerNext();
 
     void setPlayerNext(bool);
+
     void setGameToContinue(bool);
 
-    HandsComponent & getHandsComponent() const;
-    PlayingCardsDeck & getPlayingCardsDecks() const;
-    ChipsComponent & getChipsComponent() const;
-    ConnectionComponent & getConnectionComponent() const;
+    HandsComponent &getHandsComponent() const;
+
+    PlayingCardsDeck &getPlayingCardsDecks() const;
+
+    ChipsComponent &getChipsComponent() const;
+
+    ConnectionComponent &getConnectionComponent() const;
+
     bool isGameToContinue() const;
 };

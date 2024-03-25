@@ -1,11 +1,11 @@
 #include "../../../include/Edges/Conditions/PlayerWonCondition.hpp"
 
-bool PlayerWonCondition::check(ComponentProvider & componentProvider){
+bool PlayerWonCondition::check(ComponentProvider &componentProvider) {
     std::vector<PlayingCard> playerHand, dealerHand;
     int sumPlayer{}, sumDealer{}, numberOfAces{}, number;
     playerHand = componentProvider.getHandsComponent().getPlayersHand();
     dealerHand = componentProvider.getHandsComponent().getDealersHand();
-    for (auto card : playerHand){
+    for (auto card: playerHand) {
         number = card.getNumber();
         if (number < 11)
             sumPlayer += number;
@@ -15,13 +15,13 @@ bool PlayerWonCondition::check(ComponentProvider & componentProvider){
             sumPlayer += 11;
             numberOfAces += 1;
         }
-        if (sumPlayer > 21 and numberOfAces > 0){
+        if (sumPlayer > 21 and numberOfAces > 0) {
             numberOfAces -= 1;
             sumPlayer -= 10;
         }
     }
     numberOfAces = 0;
-    for (auto card : dealerHand){
+    for (auto card: dealerHand) {
         number = card.getNumber();
         if (number < 11)
             sumDealer += number;
@@ -31,7 +31,7 @@ bool PlayerWonCondition::check(ComponentProvider & componentProvider){
             sumDealer += 11;
             numberOfAces += 1;
         }
-        if (sumDealer > 21 and numberOfAces > 0){
+        if (sumDealer > 21 and numberOfAces > 0) {
             numberOfAces -= 1;
             sumDealer -= 10;
         }

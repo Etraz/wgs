@@ -17,7 +17,7 @@ std::string PlayerConnection::getMessage(std::string message) {
 
 int PlayerConnection::askForBet(int owned) {
     int bet;
-    while (true){
+    while (true) {
         std::cout << "PLEASE PLACE THE BET. YOU OWN " << owned << "\nYOUR MOVE: ";
         std::cin >> bet;
         if (bet > 0 and bet <= owned)
@@ -29,9 +29,10 @@ int PlayerConnection::askForBet(int owned) {
 
 // message = "AskMove:{numberOfMoves};{Message to print}
 int PlayerConnection::askForMove(std::string message) {
-    int startOfMessageToPrint = message.find(';'), numberOfMoves = std::stoi(message.substr(8, startOfMessageToPrint-8)), move;
+    int startOfMessageToPrint = message.find(';'), numberOfMoves = std::stoi(
+            message.substr(8, startOfMessageToPrint - 8)), move;
     std::string toPrint = message.substr(startOfMessageToPrint + 1);
-    while (true){
+    while (true) {
         std::cout << toPrint << "\nPLEASE CHOOSE YOUR MOVE.\nYOUR MOVE: ";
         std::cin >> move;
         if (move > 0 and move <= numberOfMoves)

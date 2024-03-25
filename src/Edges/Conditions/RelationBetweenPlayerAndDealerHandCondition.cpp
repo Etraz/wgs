@@ -1,6 +1,9 @@
-#include "../../../include/Edges/Conditions/PlayerWonCondition.hpp"
+#include "../../../include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 
-bool PlayerWonCondition::check(ComponentProvider &componentProvider) {
+RelationBetweenPlayerAndDealerHandCondition::RelationBetweenPlayerAndDealerHandCondition(Relation relation) : relation{
+        relation} {}
+
+bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &componentProvider) {
     std::vector<PlayingCard> playerHand, dealerHand;
     int sumPlayer{}, sumDealer{}, numberOfAces{}, number;
     playerHand = componentProvider.getHandsComponent().getPlayersHand();
@@ -36,5 +39,20 @@ bool PlayerWonCondition::check(ComponentProvider &componentProvider) {
             sumDealer -= 10;
         }
     }
-    return sumDealer > 21 or sumPlayer > sumDealer;
+    switch (relation) {
+        case lesser:
+            return sumPlayer < sumDealer;
+        case equal:
+            return sumPlayer == sumDealer;
+        case greater:
+            return sumPlayer > sumDealer;
+        case lesserOrEqual:
+            return sumPlayer <= sumDealer;
+        case notEqual:
+            return sumPlayer != sumDealer;
+        case greaterOrEqual:
+            return sumPlayer >= sumDealer;
+        default:
+            throw std::runtime_error("Bad enum type");
+    }
 }

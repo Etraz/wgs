@@ -24,3 +24,8 @@ void ChipsComponent::won() {
     owned += 2 * bet;
     bet = 0;
 }
+
+void ChipsComponent::returnBet() {
+    owned += bet;
+    bet = 0;
+}

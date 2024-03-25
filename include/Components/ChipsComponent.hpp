@@ -15,4 +15,6 @@ public:
     void newBet(int);
 
     void won();
+
+    void returnBet();
 };

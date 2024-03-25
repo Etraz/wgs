@@ -15,13 +15,15 @@
 #include "include/Edges/Actions/EndGameAction.hpp"
 #include "include/Edges/Actions/SendMessageAction.hpp"
 #include "include/Edges/Actions/ClearHandsAction.hpp"
+#include "include/Edges/Actions/PlayerTiedAction.hpp"
 #include "include/Edges/Conditions/AlwaysTrueCondition.hpp"
 #include "include/Edges/Conditions/HandSizeUnderXCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanDoubleBetCondition.hpp"
 #include "include/Edges/Conditions/AndCondition.hpp"
 #include "include/Edges/Conditions/BlackjackAtLeastXCondition.hpp"
 #include "include/Edges/Conditions/NotCondition.hpp"
-#include "include/Edges/Conditions/PlayerWonCondition.hpp"
+#include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
+#include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 
 
 int main(int, char **) {
@@ -38,7 +40,7 @@ int main(int, char **) {
                                         chipsComponent,
                                         connectionComponent};
     std::vector<std::vector<Edge>> edges;
-    edges.resize(21);
+    edges.resize(22);
 
     GetBetFromPlayerAction getBetFromPlayerAction{};
     PlayerDrawsCardAction playerDrawsCardAction{};
@@ -53,6 +55,7 @@ int main(int, char **) {
     SendMessageAction playerLostAction{"YOU LOST\n"};
     EndGameAction endGameAction{};
     ClearHandsAction clearHandsAction{};
+    PlayerTiedAction playerTiedAction{};
 
     AlwaysTrueCondition alwaysTrueCondition{};
     HandSizeUnderXCondition handSizeUnder3Condition{3};
@@ -61,13 +64,16 @@ int main(int, char **) {
                                     dynamic_cast<Condition &>(playerCanDoubleBetCondition));
     BlackjackAtLeastXCondition playerBustedCondition{22};
     NotCondition playerDidntBustedCondition(dynamic_cast<Condition &>(playerBustedCondition));
-    BlackjackAtLeastXCondition dealerToEndDrawingCondition{18};
+    BlackjackAtLeastXCondition dealerToEndDrawingCondition{17};
     NotCondition dealerToDrawCondition(dynamic_cast<Condition &>(dealerToEndDrawingCondition));
-    PlayerWonCondition playerWonCondition{};
-    NotCondition playerLostCondition(dynamic_cast<Condition &>(playerWonCondition));
+    RelationBetweenPlayerAndDealerHandCondition playerHasMoreThanDealerCondition{greater};
+    RelationBetweenPlayerAndDealerHandCondition playerHasLessThanDealerCondition{lesser};
+    RelationBetweenPlayerAndDealerHandCondition playerAndDealerHasTheSameCondition{equal};
+    PlayerCanBetCondition playerCanBetCondition{};
+    NotCondition playerCannotBetCondition(dynamic_cast<Condition &>(playerCanBetCondition));
 
-
-    edges[0].push_back(Edge{"", getBetFromPlayerAction, alwaysTrueCondition, 1});
+    edges[0].push_back(Edge{"", getBetFromPlayerAction, playerCanBetCondition, 1});
+    edges[0].push_back(Edge{"", endGameAction, playerCannotBetCondition, 21});
     edges[1].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 2});
     edges[2].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 3});
     edges[3].push_back(Edge{"", changeToDealerAction, alwaysTrueCondition, 4});
@@ -88,11 +94,14 @@ int main(int, char **) {
     edges[13].push_back(Edge{"", sendHandsAction, alwaysTrueCondition, 14});
     edges[14].push_back(Edge{"", changeToDealerAction, alwaysTrueCondition, 15});
     edges[15].push_back(Edge{"", playerDrawsCardAction, dealerToDrawCondition, 15});
-    edges[15].push_back(Edge{"", emptyAction, dealerToEndDrawingCondition, 16});
-    edges[16].push_back(Edge{"", playerWonAction, playerWonCondition, 17});
-    edges[16].push_back(Edge{"", playerLostAction, playerLostCondition, 17});
+    edges[15].push_back(Edge{"", emptyAction, dealerToEndDrawingCondition, 20});
+    edges[20].push_back(Edge{"", playerWonAction, playerBustedCondition, 17});
+    edges[20].push_back(Edge{"", emptyAction, playerDidntBustedCondition, 16});
+    edges[16].push_back(Edge{"", playerWonAction, playerHasMoreThanDealerCondition, 17});
+    edges[16].push_back(Edge{"", playerLostAction, playerHasLessThanDealerCondition, 17});
+    edges[16].push_back(Edge{"", playerTiedAction, playerAndDealerHasTheSameCondition, 17});
     edges[17].push_back(Edge{"NEXT GAME ", changeToPlayerAction, alwaysTrueCondition, 18});
-    edges[17].push_back(Edge{"END ", endGameAction, alwaysTrueCondition, 20});
+    edges[17].push_back(Edge{"END ", endGameAction, alwaysTrueCondition, 21});
     edges[18].push_back(Edge{"", clearHandsAction, alwaysTrueCondition, 0});
 
     Graph graph{edges, componentProvider, 0};

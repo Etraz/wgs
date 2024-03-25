@@ -21,27 +21,28 @@ bool PlayingCard::isShown() const {
 }
 
 std::string toString(const PlayingCard &card) {
-    std::string toReturn;
+    std::string toReturn = "| ";
     if (!card.isShown())
-        return "Reversed Card";
+        return "| Reversed Card |";
     switch (card.getNumber()) {
         case 11:
-            toReturn = "Jack";
+            toReturn += "Jack";
             break;
         case 12:
-            toReturn = "Queen";
+            toReturn += "Queen";
             break;
         case 13:
-            toReturn = "King";
+            toReturn += "King";
             break;
         case 14:
-            toReturn = "Ace";
+            toReturn += "Ace";
             break;
         default:
-            toReturn = std::to_string(card.getNumber());
+            toReturn += std::to_string(card.getNumber());
     }
     toReturn += " of ";
     toReturn += ToString(card.getColor());
+    toReturn += " |";
     return toReturn;
 }
 

@@ -2,6 +2,7 @@
 
 #include "Condition.hpp"
 
-class PlayerWonCondition : public Condition {
+class PlayerCanBetCondition : public Condition {
+public:
     bool check(ComponentProvider &) override;
 };

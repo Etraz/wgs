@@ -30,7 +30,7 @@ add_executable(wgs main.cpp
         src/Edges/Conditions/NotCondition.cpp
         src/Edges/Actions/EmptyAction.cpp
         src/Edges/Actions/ShowDealersCardsAction.cpp
-        src/Edges/Conditions/PlayerWonCondition.cpp
+        src/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.cpp
         src/Edges/Actions/EndGameAction.cpp
         src/Edges/Actions/SendMessageAction.cpp
-        src/Edges/Actions/ClearHandsAction.cpp)
+        src/Edges/Actions/ClearHandsAction.cpp src/Edges/Actions/PlayerTiedAction.cpp src/Edges/Conditions/PlayerCanBetCondition.cpp)

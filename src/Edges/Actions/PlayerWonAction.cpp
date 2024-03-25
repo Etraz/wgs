@@ -2,4 +2,5 @@
 
 void PlayerWonAction::run(ComponentProvider & componentProvider) {
     componentProvider.getChipsComponent().won();
+    componentProvider.getConnectionComponent().sendMessage("YOU WON\n");
 }

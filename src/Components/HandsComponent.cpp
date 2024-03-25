@@ -7,3 +7,8 @@ std::vector<PlayingCard> & HandsComponent::getPlayersHand(){
 std::vector<PlayingCard> & HandsComponent::getDealersHand(){
     return dealers;
 }
+
+void HandsComponent::clear() {
+    players.clear();
+    dealers.clear();
+}

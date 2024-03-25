@@ -8,4 +8,5 @@ private:
 public:
     std::vector<PlayingCard> & getPlayersHand();
     std::vector<PlayingCard> & getDealersHand();
+    void clear();
 };

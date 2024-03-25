@@ -19,4 +19,18 @@ add_executable(wgs main.cpp
         src/Components/ConnectionComponent.cpp
         src/Edges/Actions/GetBetFromPlayerAction.cpp
         src/Edges/Conditions/AlwaysTrueCondition.cpp
-        src/Edges/Actions/DoublePlayersBetAction.cpp src/Edges/Actions/PlayerWonAction.cpp src/Edges/Actions/ChangeToPlayerAction.cpp src/Edges/Actions/PlayerDrawsReversedCardAction.cpp src/Edges/Actions/SendHandsAction.cpp src/Graph.cpp src/Game.cpp src/Edges/Conditions/PlayerCanDoubleBetCondition.cpp src/Edges/Conditions/NotCondition.cpp src/Edges/Actions/EmptyAction.cpp src/Edges/Actions/ShowDealersCardsAction.cpp src/Edges/Conditions/PlayerWonCondition.cpp src/Edges/Actions/EndGameAction.cpp)
+        src/Edges/Actions/DoublePlayersBetAction.cpp
+        src/Edges/Actions/PlayerWonAction.cpp
+        src/Edges/Actions/ChangeToPlayerAction.cpp
+        src/Edges/Actions/PlayerDrawsReversedCardAction.cpp
+        src/Edges/Actions/SendHandsAction.cpp
+        src/Graph.cpp
+        src/Game.cpp
+        src/Edges/Conditions/PlayerCanDoubleBetCondition.cpp
+        src/Edges/Conditions/NotCondition.cpp
+        src/Edges/Actions/EmptyAction.cpp
+        src/Edges/Actions/ShowDealersCardsAction.cpp
+        src/Edges/Conditions/PlayerWonCondition.cpp
+        src/Edges/Actions/EndGameAction.cpp
+        src/Edges/Actions/SendMessageAction.cpp
+        src/Edges/Actions/ClearHandsAction.cpp)

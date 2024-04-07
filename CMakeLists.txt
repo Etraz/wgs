@@ -4,8 +4,9 @@ project(wgs)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(wgs main.cpp
-        src/Components/PlayingCard.cpp
-        src/Components/PlayingCardsDeck.cpp
+        src/Components/Cards/CardHolder.cpp
+        src/Components/Cards/PlayingCard.cpp
+        src/Components/Cards/DeckComponent.cpp
         src/Edges/Edge.cpp
         src/Edges/Conditions/BlackjackAtLeastXCondition.cpp
         src/Components/ComponentProvider.cpp
@@ -33,4 +34,6 @@ add_executable(wgs main.cpp
         src/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.cpp
         src/Edges/Actions/EndGameAction.cpp
         src/Edges/Actions/SendMessageAction.cpp
-        src/Edges/Actions/ClearHandsAction.cpp src/Edges/Actions/PlayerTiedAction.cpp src/Edges/Conditions/PlayerCanBetCondition.cpp)
+        src/Edges/Actions/ClearHandsAction.cpp
+        src/Edges/Actions/PlayerTiedAction.cpp
+        src/Edges/Conditions/PlayerCanBetCondition.cpp include/Components/Component.hpp src/Components/Component.cpp src/Components/Cards/Card.cpp)

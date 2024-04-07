@@ -1,13 +1,15 @@
+#include <iostream>
 #include "../../../include/Edges/Actions/PlayerDrawsCardAction.hpp"
 
 void PlayerDrawsCardAction::run(ComponentProvider &componentProvider) {
-    auto card = componentProvider.getPlayingCardsDecks().getCard();
-    if (componentProvider.isPlayerNext())
-        componentProvider.getHandsComponent().getPlayersHand().push_back(card);
-    else
-        componentProvider.getHandsComponent().getDealersHand().push_back(card);
-    std::string message = (componentProvider.isPlayerNext() ? "Player" : "Dealer");
+    auto cardHolder = componentProvider.getPlayingCardsDecks().getCard();
+    auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+
+    //OLD
+    std::string message = (componentProvider.getNextPlayer() ? "Player" : "Dealer");
     message += " draws ";
     message += toString(card);
-    componentProvider.getConnectionComponent().sendMessage(message);
+    std::cout << message << std::endl;
+
+    componentProvider.getHandsComponent().addCardToPlayer(componentProvider.getNextPlayer(), std::move(cardHolder));
 }

@@ -1,33 +1,34 @@
 #pragma once
 
 #include "HandsComponent.hpp"
-#include "PlayingCardsDeck.hpp"
+#include "Cards/DeckComponent.hpp"
 #include "ChipsComponent.hpp"
 #include "ConnectionComponent.hpp"
 
 class ComponentProvider {
 private:
     HandsComponent &handsComponent;
-    PlayingCardsDeck &playingCardDeck;
+    DeckComponent &playingCardDeck;
     ChipsComponent &chipsComponent;
     ConnectionComponent &connectionComponent;
-    bool playerNext{true};
+    PlayerIndex nextPlayerIndex{1}; // 0 dealer, 1 player
     bool gameToContinue{true};
 public:
     ComponentProvider(HandsComponent &,
-                      PlayingCardsDeck &,
+                      DeckComponent &,
                       ChipsComponent &,
                       ConnectionComponent &);
 
-    bool isPlayerNext();
+    //TODO new component for this
+    PlayerIndex getNextPlayer();
 
-    void setPlayerNext(bool);
+    void setNextPlayer(PlayerIndex);
 
     void setGameToContinue(bool);
 
     HandsComponent &getHandsComponent() const;
 
-    PlayingCardsDeck &getPlayingCardsDecks() const;
+    DeckComponent &getPlayingCardsDecks() const;
 
     ChipsComponent &getChipsComponent() const;
 

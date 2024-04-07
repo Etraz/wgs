@@ -1,14 +1,16 @@
 #include "../../../include/Edges/Actions/PlayerDrawsReversedCardAction.hpp"
+#include <iostream>
 
 void PlayerDrawsReversedCardAction::run(ComponentProvider &componentProvider) {
-    auto card = componentProvider.getPlayingCardsDecks().getCard();
-    card.setShown(false);
-    if (componentProvider.isPlayerNext())
-        componentProvider.getHandsComponent().getPlayersHand().push_back(card);
-    else
-        componentProvider.getHandsComponent().getDealersHand().push_back(card);
-    std::string message = (componentProvider.isPlayerNext() ? "Dealer" : "Player");
+    auto cardHolder = componentProvider.getPlayingCardsDecks().getCard();
+    cardHolder->reverseCard();
+    auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+
+    //OLD
+    std::string message = (componentProvider.getNextPlayer() ? "Player" : "Dealer");
     message += " draws ";
     message += toString(card);
-    componentProvider.getConnectionComponent().sendMessage(message);
+    std::cout << message << std::endl;
+
+    componentProvider.getHandsComponent().addCardToPlayer(componentProvider.getNextPlayer(), std::move(cardHolder));
 }

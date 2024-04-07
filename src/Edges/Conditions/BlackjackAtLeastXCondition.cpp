@@ -4,13 +4,12 @@
 BlackjackAtLeastXCondition::BlackjackAtLeastXCondition(int x) : x{x} {}
 
 bool BlackjackAtLeastXCondition::check(ComponentProvider &componentProvider) {
-    std::vector<PlayingCard> hand;
+    auto & hand = componentProvider.getNextPlayer() == 1 ?
+            componentProvider.getHandsComponent().getPlayersHand() :
+            componentProvider.getHandsComponent().getDealersHand();
     int sum{}, numberOfAces{}, number;
-    if (componentProvider.isPlayerNext())
-        hand = componentProvider.getHandsComponent().getPlayersHand();
-    else
-        hand = componentProvider.getHandsComponent().getDealersHand();
-    for (auto card: hand) {
+    for (auto & cardHolder: hand){
+        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();
         if (number < 11)
             sum += number;

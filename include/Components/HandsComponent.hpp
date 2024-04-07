@@ -1,15 +1,22 @@
 #pragma once
 
-#include "PlayingCard.hpp"
+#include "Cards/PlayingCard.hpp"
+#include "Cards/CardHolder.hpp"
+#include "Component.hpp"
 #include <vector>
 
-class HandsComponent {
+class ConnectionComponent;
+
+class HandsComponent : public Component{
 private:
-    std::vector<PlayingCard> players, dealers;
+    std::vector<std::unique_ptr<CardHolder>> players, dealers;
+    ConnectionComponent & connectionComponent;
 public:
-    std::vector<PlayingCard> &getPlayersHand();
-
-    std::vector<PlayingCard> &getDealersHand();
-
+    explicit HandsComponent(ConnectionComponent &);
+    const std::vector<std::unique_ptr<CardHolder>> & getPlayersHand() const ;
+    const std::vector<std::unique_ptr<CardHolder>> & getDealersHand() const ;
     void clear();
+    void addCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
+    //TODO this but single card
+    void showPlayersCards(PlayerIndex);
 };

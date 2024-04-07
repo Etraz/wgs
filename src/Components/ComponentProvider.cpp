@@ -1,7 +1,7 @@
 #include "../../include/Components/ComponentProvider.hpp"
 
 ComponentProvider::ComponentProvider(HandsComponent &handsComponent,
-                                     PlayingCardsDeck &playingCardsDeck,
+                                     DeckComponent &playingCardsDeck,
                                      ChipsComponent &chipsComponent,
                                      ConnectionComponent &connectionComponent) :
         handsComponent{handsComponent},
@@ -9,19 +9,19 @@ ComponentProvider::ComponentProvider(HandsComponent &handsComponent,
         chipsComponent{chipsComponent},
         connectionComponent{connectionComponent} {}
 
-void ComponentProvider::setPlayerNext(bool playerNext) {
-    this->playerNext = playerNext;
+void ComponentProvider::setNextPlayer(PlayerIndex playerIndex) {
+    this->nextPlayerIndex = playerIndex;
 }
 
-bool ComponentProvider::isPlayerNext() {
-    return playerNext;
+PlayerIndex ComponentProvider::getNextPlayer() {
+    return nextPlayerIndex;
 }
 
 HandsComponent &ComponentProvider::getHandsComponent() const {
     return handsComponent;
 }
 
-PlayingCardsDeck &ComponentProvider::getPlayingCardsDecks() const {
+DeckComponent &ComponentProvider::getPlayingCardsDecks() const {
     return playingCardDeck;
 }
 

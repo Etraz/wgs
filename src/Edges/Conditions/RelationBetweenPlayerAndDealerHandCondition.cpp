@@ -4,11 +4,11 @@ RelationBetweenPlayerAndDealerHandCondition::RelationBetweenPlayerAndDealerHandC
         relation} {}
 
 bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &componentProvider) {
-    std::vector<PlayingCard> playerHand, dealerHand;
     int sumPlayer{}, sumDealer{}, numberOfAces{}, number;
-    playerHand = componentProvider.getHandsComponent().getPlayersHand();
-    dealerHand = componentProvider.getHandsComponent().getDealersHand();
-    for (auto card: playerHand) {
+    auto & playerHand = componentProvider.getHandsComponent().getPlayersHand();
+    auto & dealerHand = componentProvider.getHandsComponent().getDealersHand();
+    for (auto & cardHolder: playerHand){
+        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();
         if (number < 11)
             sumPlayer += number;
@@ -24,7 +24,8 @@ bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &compo
         }
     }
     numberOfAces = 0;
-    for (auto card: dealerHand) {
+    for (auto & cardHolder: dealerHand){
+        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();
         if (number < 11)
             sumDealer += number;

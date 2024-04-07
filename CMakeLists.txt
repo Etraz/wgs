@@ -33,4 +33,10 @@ add_executable(wgs main.cpp
         src/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.cpp
         src/Edges/Actions/EndGameAction.cpp
         src/Edges/Actions/SendMessageAction.cpp
-        src/Edges/Actions/ClearHandsAction.cpp src/Edges/Actions/PlayerTiedAction.cpp src/Edges/Conditions/PlayerCanBetCondition.cpp)
+        src/Edges/Actions/ClearHandsAction.cpp src/Edges/Actions/PlayerTiedAction.cpp src/Edges/Conditions/PlayerCanBetCondition.cpp
+        src/Server/ConnectionManager.cpp
+        include/Server/ConnectionManager.hpp
+        src/Server/LocalConnectionManager.cpp
+        include/Server/LocalConnectionManager.hpp
+        include/Server/LocalConnectionManager.hpp
+        src/Server/LocalConnectionManager.cpp)

@@ -24,6 +24,7 @@
 #include "include/Edges/Conditions/NotCondition.hpp"
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
+#include "include/Server/ConnectionManager.hpp"
 
 
 int main(int, char **) {
@@ -106,5 +107,16 @@ int main(int, char **) {
 
     Graph graph{edges, componentProvider, 0};
     Game game{componentProvider, graph};
+    ConnectionManager cm{};
+    cm.startup(4000);
+
+    cm.addTable();
+    std::cout << "Table added!\n";
+    cm.addUserToTemporary(0);
+
+    // PASS communication into the game!
     game.start();
+
+
+    cm.close();
 }

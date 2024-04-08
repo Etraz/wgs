@@ -10,7 +10,8 @@ void PlayerDrawsReversedCardAction::run(ComponentProvider &componentProvider) {
     std::string message = (componentProvider.getNextPlayer() ? "Player" : "Dealer");
     message += " draws ";
     message += toString(card);
-    std::cout << message << std::endl;
+//    std::cout << message << std::endl;
+    componentProvider.getConnectionComponent().sendMessage(message);
 
     componentProvider.getHandsComponent().addCardToPlayer(componentProvider.getNextPlayer(), std::move(cardHolder));
 }

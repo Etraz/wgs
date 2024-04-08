@@ -13,12 +13,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include <vector>
 
 class LocalConnectionManager {
-    std::vector<int> fds;
-    
+
 
 public:
+    std::vector<int> fds;
     LocalConnectionManager();
 
     void addUser(int fd);

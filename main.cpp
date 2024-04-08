@@ -26,8 +26,21 @@
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 #include "include/Server/ConnectionManager.hpp"
 
-
 int main(int, char **) {
+
+    ConnectionManager cm{};
+    cm.startup(4000);
+
+    cm.addTable();
+    std::cout << "Table added!\n";
+    cm.addUserToTemporary(0);
+    std::cout<< "User added\n";
+    // PASS communication into the game!
+    cm.getTable(0).send("hello!");
+    std::cout << "Message recieved: " << cm.getTable(0).receiveFromUser(0) << '\n';
+    int fd = cm.getTable(0).fds.at(0);
+
+
     std::vector<std::unique_ptr<Card>> deck;
     for (int j = 0; j < 4; ++j){
         for (unsigned char i = 2; i < 15; ++i) {
@@ -42,6 +55,7 @@ int main(int, char **) {
     DeckComponent playingCardsDeck{std::move(deck), e};
     ChipsComponent chipsComponent{1000};
     PlayerConnection playerConnection{};
+    playerConnection.fd=fd;
     ConnectionComponent connectionComponent{playerConnection};
     HandsComponent handsComponent{connectionComponent};
 
@@ -117,14 +131,6 @@ int main(int, char **) {
 
     Graph graph{edges, componentProvider, 0};
     Game game{componentProvider, graph};
-    ConnectionManager cm{};
-    cm.startup(4000);
-
-    cm.addTable();
-    std::cout << "Table added!\n";
-    cm.addUserToTemporary(0);
-
-    // PASS communication into the game!
     game.start();
 
 

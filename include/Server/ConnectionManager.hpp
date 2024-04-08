@@ -16,15 +16,14 @@
 
 class ConnectionManager {
     std::vector<LocalConnectionManager> tables;
-    std::vector<int> fds;
     struct sockaddr_in serverAddr;
     int serverSocket;
+    std::vector<int> fds;
 
 public:
-    ConnectionManager();
-
     bool stoppage;
 
+    ConnectionManager();
     void addUser(int fd);
     void addTable();
     void loopAdd();

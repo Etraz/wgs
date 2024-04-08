@@ -96,6 +96,9 @@ void ConnectionManager::addUserToTemporary(int tbl) {
         if (clientSocket == -1) {
             std::cerr << "Error accepting connection\n";
         }
+        else{
+            std::cout << "it should be fine\n";
+        }
     }
     addUser(clientSocket);
     tables.at(tbl).addUser(clientSocket);

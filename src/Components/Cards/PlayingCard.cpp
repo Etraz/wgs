@@ -1,4 +1,4 @@
-#include "../../include/Components/PlayingCard.hpp"
+#include "../../../include/Components/Cards/PlayingCard.hpp"
 
 
 PlayingCard::PlayingCard(int number, PlayingCardColor color) : number{number}, color{color} {}
@@ -12,12 +12,29 @@ PlayingCardColor PlayingCard::getColor() const {
     return this->color;
 }
 
-void PlayingCard::setShown(bool shown) {
-    this->shown = shown;
-}
 
-bool PlayingCard::isShown() const {
-    return this->shown;
+
+std::string PlayingCard::serialize() const {
+    std::string toReturn = "playing_card";
+    if (!shown)
+        toReturn += "0";
+    else {
+        switch (color){
+            case spades:
+                toReturn += std::to_string(number - 1);
+                break;
+            case hearts:
+                toReturn += std::to_string(number + 12);
+                break;
+            case diamonds:
+                toReturn += std::to_string(number + 25);
+                break;
+            case clubs:
+                toReturn += std::to_string(number + 38);
+                break;
+        }
+    }
+    return toReturn;
 }
 
 std::string toString(const PlayingCard &card) {
@@ -46,9 +63,10 @@ std::string toString(const PlayingCard &card) {
     return toReturn;
 }
 
-std::string toString(const std::vector<PlayingCard> &hand) {
+std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand) {
     std::string message = "";
-    for (const auto &card: hand) {
+    for (const auto &cardHolder: hand) {
+        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         message += toString(card);
         message += ' ';
     }

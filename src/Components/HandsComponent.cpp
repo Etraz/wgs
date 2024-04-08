@@ -1,14 +1,59 @@
 #include "../../include/Components/HandsComponent.hpp"
+#include "../../include/Components/ConnectionComponent.hpp"
 
-std::vector<PlayingCard> &HandsComponent::getPlayersHand() {
+
+void HandsComponent::clear() {
+    for (auto & cardHolder : players)
+        cardHolder->returnCard();
+    for (auto & cardHolder : dealers)
+        cardHolder->returnCard();
+    players.clear();
+    dealers.clear();
+    connectionComponent.sendMessage("{player:0,\naction:clear}");
+    connectionComponent.sendMessage("{player:1,\naction:clear}");
+}
+
+const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getPlayersHand() const{
     return players;
 }
 
-std::vector<PlayingCard> &HandsComponent::getDealersHand() {
+const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getDealersHand() const{
     return dealers;
 }
 
-void HandsComponent::clear() {
-    players.clear();
-    dealers.clear();
+void HandsComponent::addCardToPlayer(PlayerIndex playerIndex, std::unique_ptr<CardHolder> cardHolder) {
+    //TODO multiplayer solution
+    std::string message = "{player:";
+    message += to_string(playerIndex);
+    message += ",\naction:draw,\ncard:{card_index:";
+    message += std::to_string(cardHolder->getIndex());
+    message += ",card_value:";
+    message += cardHolder->getCard().serialize();
+    message += "}}";
+    connectionComponent.sendMessage(message);
+    if (playerIndex == 1)
+        players.push_back(std::move(cardHolder));
+    else
+        dealers.push_back(std::move(cardHolder));
 }
+
+void HandsComponent::showPlayersCards(PlayerIndex playerIndex) {
+    auto & hand = playerIndex == 1 ? players : dealers;
+    for (auto & cardHolder: hand){
+        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+        if (!card.isShown()) {
+            cardHolder->reverseCard();
+            std::string message = "{player:";
+            message += to_string(playerIndex);
+            message += ",\naction:show,\ncard:{card_index:";
+            message += std::to_string(cardHolder->getIndex());
+            message += ",card_value:";
+            message += cardHolder->getCard().serialize();
+            message += "}}";
+            connectionComponent.sendMessage(message);
+        }
+    }
+}
+
+HandsComponent::HandsComponent(ConnectionComponent & connectionComponent):
+                                connectionComponent{connectionComponent} {}

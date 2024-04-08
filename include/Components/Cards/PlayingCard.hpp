@@ -2,6 +2,8 @@
 
 #include <ostream>
 #include <vector>
+#include "Card.hpp"
+#include "CardHolder.hpp"
 
 enum PlayingCardColor {
     spades = 1, hearts = 2, diamonds = 4, clubs = 8
@@ -22,9 +24,8 @@ inline const char *ToString(PlayingCardColor c) {
     }
 }
 
-class PlayingCard {
+class PlayingCard: public Card{
 private:
-    bool shown{true};
     int number{2};
     PlayingCardColor color;
 public:
@@ -34,9 +35,9 @@ public:
 
     PlayingCardColor getColor() const;
 
-    void setShown(bool);
 
-    bool isShown() const;
+
+    std::string serialize() const override;
 
 
     friend void swap(PlayingCard &A, PlayingCard &B) {
@@ -49,6 +50,6 @@ public:
 
 std::string toString(const PlayingCard &card);
 
-std::string toString(const std::vector<PlayingCard> &hand);
+std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand);
 
 std::ostream &operator<<(std::ostream &os, const PlayingCard &card);

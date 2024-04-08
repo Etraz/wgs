@@ -28,13 +28,23 @@
 
 
 int main(int, char **) {
+    std::vector<std::unique_ptr<Card>> deck;
+    for (int j = 0; j < 4; ++j){
+        for (unsigned char i = 2; i < 15; ++i) {
+            deck.push_back(std::unique_ptr<Card>(new PlayingCard(i, spades)));
+            deck.push_back(std::unique_ptr<Card>(new PlayingCard(i, hearts)));
+            deck.push_back(std::unique_ptr<Card>(new PlayingCard(i, diamonds)));
+            deck.push_back(std::unique_ptr<Card>(new PlayingCard(i, clubs)));
+        }
+    }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    HandsComponent handsComponent{};
-    PlayingCardsDeck playingCardsDeck{e};
+    DeckComponent playingCardsDeck{std::move(deck), e};
     ChipsComponent chipsComponent{1000};
     PlayerConnection playerConnection{};
     ConnectionComponent connectionComponent{playerConnection};
+    HandsComponent handsComponent{connectionComponent};
+
 
     ComponentProvider componentProvider{handsComponent,
                                         playingCardsDeck,

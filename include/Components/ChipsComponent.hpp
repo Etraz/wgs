@@ -1,6 +1,7 @@
 #pragma once
+#include "Component.hpp"
 
-class ChipsComponent {
+class ChipsComponent: public Component{
 private:
     int owned, bet;
 public:

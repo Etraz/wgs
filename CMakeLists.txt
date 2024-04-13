@@ -45,7 +45,7 @@ add_executable(server server.cpp
         src/Edges/Conditions/PlayerCanBetCondition.cpp
         src/Components/Component.cpp
         src/Components/Cards/Card.cpp
-        src/TempSender.cpp)
+        src/TempSender.cpp src/Edges/Actions/MultiAction.cpp)
 
 add_executable(local local.cpp
         src/Components/Cards/CardHolder.cpp
@@ -85,4 +85,5 @@ add_executable(local local.cpp
         src/Edges/Actions/PlayerTiedAction.cpp
         src/Edges/Conditions/PlayerCanBetCondition.cpp
         src/Components/Component.cpp
-        src/Components/Cards/Card.cpp)
+        src/Components/Cards/Card.cpp
+        src/Edges/Actions/MultiAction.cpp)

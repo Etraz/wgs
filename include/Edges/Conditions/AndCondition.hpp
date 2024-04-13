@@ -4,9 +4,9 @@
 
 class AndCondition : public Condition {
 private:
-    Condition &first, &second;
+    std::shared_ptr<Condition> first, second;
 public:
-    AndCondition(Condition &, Condition &);
+    AndCondition(std::shared_ptr<Condition>, std::shared_ptr<Condition>);
 
     bool check(ComponentProvider &) override;
 };

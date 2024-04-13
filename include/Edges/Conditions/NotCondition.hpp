@@ -4,9 +4,9 @@
 
 class NotCondition : public Condition {
 private:
-    Condition &condition;
+    std::shared_ptr<Condition> condition;
 public:
-    NotCondition(Condition &);
+    explicit NotCondition(std::shared_ptr<Condition>);
 
     bool check(ComponentProvider &) override;
 };

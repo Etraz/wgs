@@ -1,20 +1,22 @@
 #include "../../include/Edges/Edge.hpp"
 
+#include <utility>
+
 Edge::Edge(std::string message,
-           Action &action,
-           Condition &condition,
+           std::shared_ptr<Action> action,
+           std::shared_ptr<Condition> condition,
            int end) :
-        message{message},
-        action{action},
-        condition{condition},
+        message{std::move(message)},
+        action{std::move(action)},
+        condition{std::move(condition)},
         end{end} {}
 
 bool Edge::isAccessible(ComponentProvider &componentProvider) {
-    return condition.check(componentProvider);
+    return condition->check(componentProvider);
 }
 
 int Edge::choose(ComponentProvider &componentProvider) {
-    action.run(componentProvider);
+    action->run(componentProvider);
     return end;
 }
 

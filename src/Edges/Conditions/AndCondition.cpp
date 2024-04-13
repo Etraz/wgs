@@ -1,7 +1,9 @@
 #include "../../../include/Edges/Conditions/AndCondition.hpp"
 
-AndCondition::AndCondition(Condition &first, Condition &second) : first{first}, second{second} {}
+#include <utility>
+
+AndCondition::AndCondition(std::shared_ptr<Condition> first, std::shared_ptr<Condition> second) : first{std::move(first)}, second{std::move(second)} {}
 
 bool AndCondition::check(ComponentProvider &componentProvider) {
-    return first.check(componentProvider) and second.check(componentProvider);
+    return first->check(componentProvider) and second->check(componentProvider);
 }

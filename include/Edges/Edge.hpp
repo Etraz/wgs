@@ -7,11 +7,11 @@
 
 class Edge {
     std::string message;
-    Action &action;
-    Condition &condition;
+    std::shared_ptr<Action> action;
+    std::shared_ptr<Condition> condition;
     int end;
 public:
-    Edge(std::string, Action &, Condition &, int);
+    Edge(std::string, std::shared_ptr<Action>, std::shared_ptr<Condition>, int);
 
     bool isAccessible(ComponentProvider &);
 

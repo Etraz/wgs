@@ -1,5 +1,6 @@
 #include "../../../include/Edges/Conditions/PlayerCanDoubleBetCondition.hpp"
 
 bool PlayerCanDoubleBetCondition::check(ComponentProvider &componentProvider) {
-    return componentProvider.getChipsComponent().getBet() <= componentProvider.getChipsComponent().getOwned();
+    auto & chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
+    return chips.getBet() <= chips.getOwned();
 }

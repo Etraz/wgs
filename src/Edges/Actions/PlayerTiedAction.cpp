@@ -2,7 +2,8 @@
 #include "../../../include/Edges/Actions/PlayerTiedAction.hpp"
 
 void PlayerTiedAction::run(ComponentProvider &componentProvider) {
-//    std::cout << "YOU TIED\n";
-    componentProvider.getConnectionComponent().sendMessage("YOU TIED\n");
-    componentProvider.getChipsComponent().returnBet();
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    auto & chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
+    connection.sendMessage("YOU TIED\n");
+    chips.returnBet();
 }

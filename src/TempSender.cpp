@@ -57,3 +57,7 @@ int TempSender::askForMove(std::string message) {
     }
     return move;
 }
+
+TempSender::TempSender(int fd): fd{fd} {
+
+}

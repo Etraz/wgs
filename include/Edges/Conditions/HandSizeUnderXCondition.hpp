@@ -4,9 +4,9 @@
 
 class HandSizeUnderXCondition : public Condition {
 private:
-    const int x;
+    const size_t x;
 public:
-    HandSizeUnderXCondition(int);
+    explicit HandSizeUnderXCondition(size_t);
 
     bool check(ComponentProvider &) override;
 };

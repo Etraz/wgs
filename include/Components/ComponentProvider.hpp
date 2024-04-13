@@ -1,38 +1,28 @@
 #pragma once
 
-#include "HandsComponent.hpp"
 #include "Cards/DeckComponent.hpp"
 #include "ChipsComponent.hpp"
 #include "ConnectionComponent.hpp"
+#include "HandsComponent.hpp"
+#include <map>
 
 class ComponentProvider {
 private:
-    HandsComponent &handsComponent;
-    DeckComponent &playingCardDeck;
-    ChipsComponent &chipsComponent;
-    ConnectionComponent &connectionComponent;
+    std::map<std::string, std::unique_ptr<Component>> Components;
     PlayerIndex nextPlayerIndex{1}; // 0 dealer, 1 player
     bool gameToContinue{true};
 public:
-    ComponentProvider(HandsComponent &,
-                      DeckComponent &,
-                      ChipsComponent &,
-                      ConnectionComponent &);
-
+    ComponentProvider() = default;
     //TODO new component for this
-    PlayerIndex getNextPlayer();
+    PlayerIndex getNextPlayer() const;
+
+    void addComponent(std::unique_ptr<Component>, const std::string&);
+
+    Component & getComponent(const std::string&) const;
 
     void setNextPlayer(PlayerIndex);
 
     void setGameToContinue(bool);
-
-    HandsComponent &getHandsComponent() const;
-
-    DeckComponent &getPlayingCardsDecks() const;
-
-    ChipsComponent &getChipsComponent() const;
-
-    ConnectionComponent &getConnectionComponent() const;
 
     bool isGameToContinue() const;
 };

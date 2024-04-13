@@ -26,6 +26,7 @@
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 #include "include/Server/ConnectionManager.hpp"
 #include "include/TempSender.hpp"
+#include "include/Components/HandsComponent.hpp"
 
 int main(int, char **) {
 
@@ -53,18 +54,15 @@ int main(int, char **) {
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    DeckComponent playingCardsDeck{std::move(deck), e};
-    ChipsComponent chipsComponent{1000};
-    TempSender playerConnection{};
-    playerConnection.fd=fd;
-    ConnectionComponent connectionComponent{playerConnection};
-    HandsComponent handsComponent{connectionComponent};
 
+    TempSender playerConnection{fd};
+    ComponentProvider componentProvider{};
 
-    ComponentProvider componentProvider{handsComponent,
-                                        playingCardsDeck,
-                                        chipsComponent,
-                                        connectionComponent};
+    componentProvider.addComponent(std::make_unique<Component>(HandsComponent{componentProvider}), "HandsComponent");
+    componentProvider.addComponent(std::make_unique<Component>(ConnectionComponent{playerConnection}), "ConnectionComponent");
+    componentProvider.addComponent(std::make_unique<Component>(ChipsComponent{1000}), "ChipsComponent");
+    componentProvider.addComponent(std::make_unique<Component>(DeckComponent{std::move(deck),e}), "DeckComponent");
+
     std::vector<std::vector<Edge>> edges;
     edges.resize(22);
 

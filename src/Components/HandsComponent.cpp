@@ -1,6 +1,5 @@
 #include "../../include/Components/HandsComponent.hpp"
-#include "../../include/Components/ConnectionComponent.hpp"
-
+#include "../../include/Components/ComponentProvider.hpp"
 
 void HandsComponent::clear() {
     for (auto & cardHolder : players)
@@ -9,8 +8,8 @@ void HandsComponent::clear() {
         cardHolder->returnCard();
     players.clear();
     dealers.clear();
-    connectionComponent.sendMessage("{player:0,\naction:clear}");
-    connectionComponent.sendMessage("{player:1,\naction:clear}");
+    getConnectionComponent().sendMessage("{player:0,\naction:clear}");
+    getConnectionComponent().sendMessage("{player:1,\naction:clear}");
 }
 
 const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getPlayersHand() const{
@@ -30,7 +29,7 @@ void HandsComponent::addCardToPlayer(PlayerIndex playerIndex, std::unique_ptr<Ca
     message += ",card_value:";
     message += cardHolder->getCard().serialize();
     message += "}}";
-    connectionComponent.sendMessage(message);
+    getConnectionComponent().sendMessage(message);
     if (playerIndex == 1)
         players.push_back(std::move(cardHolder));
     else
@@ -50,10 +49,15 @@ void HandsComponent::showPlayersCards(PlayerIndex playerIndex) {
             message += ",card_value:";
             message += cardHolder->getCard().serialize();
             message += "}}";
-            connectionComponent.sendMessage(message);
+            getConnectionComponent().sendMessage(message);
         }
     }
 }
 
-HandsComponent::HandsComponent(ConnectionComponent & connectionComponent):
-                                connectionComponent{connectionComponent} {}
+HandsComponent::HandsComponent(ComponentProvider & componentProvider) : componentProvider{componentProvider}{
+
+}
+
+ConnectionComponent &HandsComponent::getConnectionComponent() {
+    return dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+}

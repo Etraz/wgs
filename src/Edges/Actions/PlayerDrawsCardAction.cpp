@@ -2,7 +2,10 @@
 #include "../../../include/Edges/Actions/PlayerDrawsCardAction.hpp"
 
 void PlayerDrawsCardAction::run(ComponentProvider &componentProvider) {
-    auto cardHolder = componentProvider.getPlayingCardsDecks().getCard();
+    auto & deck = dynamic_cast<DeckComponent &>(componentProvider.getComponent("DeckComponent"));
+    auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    auto cardHolder = deck.getCard();
     auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
 
     //OLD
@@ -10,7 +13,7 @@ void PlayerDrawsCardAction::run(ComponentProvider &componentProvider) {
     message += " draws ";
     message += toString(card);
 //    std::cout << message << std::endl;
-    componentProvider.getConnectionComponent().sendMessage(message);
+    connection.sendMessage(message);
 
-    componentProvider.getHandsComponent().addCardToPlayer(componentProvider.getNextPlayer(), std::move(cardHolder));
+    hands.addCardToPlayer(componentProvider.getNextPlayer(), std::move(cardHolder));
 }

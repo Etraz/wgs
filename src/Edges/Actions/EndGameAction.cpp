@@ -3,6 +3,7 @@
 
 void EndGameAction::run(ComponentProvider &componentProvider) {
 //    std::cout << "END GAME\n";
-    componentProvider.getConnectionComponent().sendMessage("END GAME\n");
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    connection.sendMessage("END GAME\n");
     componentProvider.setGameToContinue(false);
 }

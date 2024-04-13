@@ -1,10 +1,11 @@
 #include "../../../include/Edges/Conditions/HandSizeUnderXCondition.hpp"
 
-HandSizeUnderXCondition::HandSizeUnderXCondition(int x) : x{x} {}
+HandSizeUnderXCondition::HandSizeUnderXCondition(size_t x) : x{x} {}
 
 bool HandSizeUnderXCondition::check(ComponentProvider &componentProvider) {
+    auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
     if (componentProvider.getNextPlayer() == 1)
-        return componentProvider.getHandsComponent().getPlayersHand().size() < x;
+        return hands.getPlayersHand().size() < x;
     else
-        return componentProvider.getHandsComponent().getDealersHand().size() < x;
+        return hands.getDealersHand().size() < x;
 }

@@ -12,6 +12,7 @@ private:
 
 public:
     int fd=-1;
+    explicit TempSender(int);
 
     std::string getMessage(std::string) override;
 };

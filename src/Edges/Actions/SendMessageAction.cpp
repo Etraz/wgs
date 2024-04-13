@@ -5,5 +5,6 @@
 SendMessageAction::SendMessageAction(std::string message) : message{std::move(message)} {}
 
 void SendMessageAction::run(ComponentProvider &componentProvider) {
-    componentProvider.getConnectionComponent().sendMessage(message);
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    connection.sendMessage(message);
 }

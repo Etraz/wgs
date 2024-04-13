@@ -24,8 +24,10 @@
 #include "include/Edges/Conditions/NotCondition.hpp"
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
+#include "include/Components/HandsComponent.hpp"
 
 int main(int, char **) {
+
     std::vector<std::unique_ptr<Card>> deck;
     for (int j = 0; j < 4; ++j){
         for (unsigned char i = 2; i < 15; ++i) {
@@ -37,17 +39,16 @@ int main(int, char **) {
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    DeckComponent playingCardsDeck{std::move(deck), e};
-    ChipsComponent chipsComponent{1000};
     PlayerConnection playerConnection{};
-    ConnectionComponent connectionComponent{playerConnection};
-    HandsComponent handsComponent{connectionComponent};
 
 
-    ComponentProvider componentProvider{handsComponent,
-                                        playingCardsDeck,
-                                        chipsComponent,
-                                        connectionComponent};
+    ComponentProvider componentProvider{};
+
+    componentProvider.addComponent(std::make_unique<HandsComponent>(HandsComponent{componentProvider}), "HandsComponent");
+    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent{playerConnection}), "ConnectionComponent");
+    componentProvider.addComponent(std::make_unique<ChipsComponent>(ChipsComponent{1000}), "ChipsComponent");
+    componentProvider.addComponent(std::make_unique<DeckComponent>(DeckComponent{std::move(deck),e}), "DeckComponent");
+
     std::vector<std::vector<Edge>> edges;
     edges.resize(22);
 

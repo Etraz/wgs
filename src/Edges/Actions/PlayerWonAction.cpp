@@ -2,7 +2,8 @@
 #include "../../../include/Edges/Actions/PlayerWonAction.hpp"
 
 void PlayerWonAction::run(ComponentProvider &componentProvider) {
-//    std::cout << "YOU WON\n";
-    componentProvider.getConnectionComponent().sendMessage("YOU WON\n");
-    componentProvider.getChipsComponent().won();
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    auto & chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
+    connection.sendMessage("YOU WON\n");
+    chips.won();
 }

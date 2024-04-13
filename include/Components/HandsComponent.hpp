@@ -5,16 +5,19 @@
 #include "Component.hpp"
 #include <vector>
 
+class ComponentProvider;
+
 class ConnectionComponent;
 
 class HandsComponent : public Component{
 private:
     std::vector<std::unique_ptr<CardHolder>> players, dealers;
-    ConnectionComponent & connectionComponent;
+    ComponentProvider & componentProvider;
+    ConnectionComponent& getConnectionComponent();
 public:
-    explicit HandsComponent(ConnectionComponent &);
-    const std::vector<std::unique_ptr<CardHolder>> & getPlayersHand() const ;
-    const std::vector<std::unique_ptr<CardHolder>> & getDealersHand() const ;
+    explicit HandsComponent(ComponentProvider&);
+    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> & getPlayersHand() const ;
+    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> & getDealersHand() const ;
     void clear();
     void addCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
     //TODO this but single card

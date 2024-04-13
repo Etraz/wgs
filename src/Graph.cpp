@@ -36,5 +36,6 @@ void Graph::move() {
 }
 
 int Graph::askPlayerForMove(std::string message) {
-    return std::stoi(componentProvider.getConnectionComponent().sendMessage(message)) - 1;
+    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    return std::stoi(connection.sendMessage(message)) - 1;
 }

@@ -1,5 +1,6 @@
 #include "../../../include/Edges/Actions/ShowDealersCardsAction.hpp"
 
 void ShowDealersCardsAction::run(ComponentProvider &componentProvider) {
-    componentProvider.getHandsComponent().showPlayersCards(0);
+    auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
+    hands.showPlayersCards(0);
 }

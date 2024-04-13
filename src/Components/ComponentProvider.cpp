@@ -1,36 +1,11 @@
 #include "../../include/Components/ComponentProvider.hpp"
 
-ComponentProvider::ComponentProvider(HandsComponent &handsComponent,
-                                     DeckComponent &playingCardsDeck,
-                                     ChipsComponent &chipsComponent,
-                                     ConnectionComponent &connectionComponent) :
-        handsComponent{handsComponent},
-        playingCardDeck{playingCardsDeck},
-        chipsComponent{chipsComponent},
-        connectionComponent{connectionComponent} {}
-
 void ComponentProvider::setNextPlayer(PlayerIndex playerIndex) {
     this->nextPlayerIndex = playerIndex;
 }
 
-PlayerIndex ComponentProvider::getNextPlayer() {
+PlayerIndex ComponentProvider::getNextPlayer() const {
     return nextPlayerIndex;
-}
-
-HandsComponent &ComponentProvider::getHandsComponent() const {
-    return handsComponent;
-}
-
-DeckComponent &ComponentProvider::getPlayingCardsDecks() const {
-    return playingCardDeck;
-}
-
-ChipsComponent &ComponentProvider::getChipsComponent() const {
-    return chipsComponent;
-}
-
-ConnectionComponent &ComponentProvider::getConnectionComponent() const {
-    return connectionComponent;
 }
 
 bool ComponentProvider::isGameToContinue() const {
@@ -39,4 +14,14 @@ bool ComponentProvider::isGameToContinue() const {
 
 void ComponentProvider::setGameToContinue(bool gameToContinue) {
     this->gameToContinue = gameToContinue;
+}
+
+void ComponentProvider::addComponent(std::unique_ptr<Component> component, const std::string& name) {
+    Components.insert(std::make_pair(name, std::move(component)));
+}
+
+Component &ComponentProvider::getComponent(const std::string& name) const {
+    if (auto iter = Components.find(name); iter != Components.end())
+        return *(iter->second);
+    throw std::runtime_error("No component found");
 }

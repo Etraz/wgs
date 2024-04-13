@@ -25,6 +25,7 @@
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 #include "include/Server/ConnectionManager.hpp"
+#include "include/TempSender.hpp"
 
 int main(int, char **) {
 
@@ -54,7 +55,7 @@ int main(int, char **) {
     std::default_random_engine e(seed);
     DeckComponent playingCardsDeck{std::move(deck), e};
     ChipsComponent chipsComponent{1000};
-    PlayerConnection playerConnection{};
+    TempSender playerConnection{};
     playerConnection.fd=fd;
     ConnectionComponent connectionComponent{playerConnection};
     HandsComponent handsComponent{connectionComponent};

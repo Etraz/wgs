@@ -25,6 +25,7 @@
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 #include "include/Components/HandsComponent.hpp"
+#include "include/PlayerConnection.hpp"
 
 int main(int, char **) {
     std::vector<std::unique_ptr<Card>> deck;
@@ -38,13 +39,13 @@ int main(int, char **) {
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    PlayerConnection playerConnection{};
+    PlayerConnection connection{};
 
 
     ComponentProvider componentProvider{};
 
     componentProvider.addComponent(std::make_unique<HandsComponent>(HandsComponent{componentProvider}), "HandsComponent");
-    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent{playerConnection}), "ConnectionComponent");
+    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent{connection}), "ConnectionComponent");
     componentProvider.addComponent(std::make_unique<ChipsComponent>(ChipsComponent{1000}), "ChipsComponent");
     componentProvider.addComponent(std::make_unique<DeckComponent>(DeckComponent{std::move(deck),e}), "DeckComponent");
 

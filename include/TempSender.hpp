@@ -1,7 +1,7 @@
 #pragma once
-#include "PlayerConnection.hpp"
+#include "AbstractSendRec.hpp"
 
-class TempSender : public PlayerConnection {
+class TempSender : public AbstractSendRec {
 private:
 
     int askForBet(int);

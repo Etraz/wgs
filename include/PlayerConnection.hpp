@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
+#include "AbstractSendRec.hpp"
 
-class PlayerConnection {
+class PlayerConnection : public AbstractSendRec{
 private:
     int askForBet(int);
     int askForMove(std::string);
 public:
-    virtual std::string getMessage(std::string);
+    std::string getMessage(std::string) override;
 };

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../PlayerConnection.hpp"
+#include "../AbstractSendRec.hpp"
 #include "Component.hpp"
 
 class ConnectionComponent : public Component{
 private:
-    PlayerConnection &connection;
+    AbstractSendRec &connection;
 public:
-    explicit ConnectionComponent(PlayerConnection &);
+    explicit ConnectionComponent(AbstractSendRec &);
 
     std::string sendMessage(std::string);
 };

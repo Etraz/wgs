@@ -58,10 +58,10 @@ int main(int, char **) {
     TempSender playerConnection{fd};
     ComponentProvider componentProvider{};
 
-    componentProvider.addComponent(std::make_unique<Component>(HandsComponent{componentProvider}), "HandsComponent");
-    componentProvider.addComponent(std::make_unique<Component>(ConnectionComponent{playerConnection}), "ConnectionComponent");
-    componentProvider.addComponent(std::make_unique<Component>(ChipsComponent{1000}), "ChipsComponent");
-    componentProvider.addComponent(std::make_unique<Component>(DeckComponent{std::move(deck),e}), "DeckComponent");
+    componentProvider.addComponent(std::make_unique<HandsComponent>(HandsComponent{componentProvider}), "HandsComponent");
+    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent{playerConnection}), "ConnectionComponent");
+    componentProvider.addComponent(std::make_unique<ChipsComponent>(ChipsComponent{1000}), "ChipsComponent");
+    componentProvider.addComponent(std::make_unique<DeckComponent>(DeckComponent{std::move(deck),e}), "DeckComponent");
 
     std::vector<std::vector<Edge>> edges;
     edges.resize(22);

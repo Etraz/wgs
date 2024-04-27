@@ -4,13 +4,13 @@ RelationBetweenPlayerAndDealerHandCondition::RelationBetweenPlayerAndDealerHandC
         relation} {}
 
 bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &componentProvider) {
-    auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
-    auto & players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
+    auto &hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
+    auto &players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
     int sumPlayer{}, sumDealer{}, numberOfAces{}, number;
-    auto & playerHand = hands.getHand(players.getCurrentPlayer());
-    auto & dealerHand = hands.getHand(0);
-    for (auto & cardHolder: playerHand){
-        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+    auto &playerHand = hands.getHand(players.getCurrentPlayer());
+    auto &dealerHand = hands.getHand(0);
+    for (auto &cardHolder: playerHand) {
+        auto &card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();
         if (number < 11)
             sumPlayer += number;
@@ -26,8 +26,8 @@ bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &compo
         }
     }
     numberOfAces = 0;
-    for (auto & cardHolder: dealerHand){
-        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+    for (auto &cardHolder: dealerHand) {
+        auto &card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();
         if (number < 11)
             sumDealer += number;

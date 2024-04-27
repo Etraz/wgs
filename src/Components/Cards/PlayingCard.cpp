@@ -13,13 +13,12 @@ PlayingCardColor PlayingCard::getColor() const {
 }
 
 
-
 std::string PlayingCard::serialize() const {
     std::string toReturn = "playing_card";
     if (!shown)
         toReturn += "0";
     else {
-        switch (color){
+        switch (color) {
             case spades:
                 toReturn += std::to_string(number - 1);
                 break;
@@ -66,7 +65,7 @@ std::string toString(const PlayingCard &card) {
 std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand) {
     std::string message = "";
     for (const auto &cardHolder: hand) {
-        auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
+        auto &card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         message += toString(card);
         message += ' ';
     }

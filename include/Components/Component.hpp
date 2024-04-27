@@ -6,7 +6,7 @@ using PlayerIndex = unsigned int;
 
 std::string to_string(PlayerIndex playerIndex);
 
-class Component{
+class Component {
 public:
     virtual ~Component() = default;
 };

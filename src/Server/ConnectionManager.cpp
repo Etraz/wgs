@@ -18,8 +18,8 @@
 //
 
 ConnectionManager::ConnectionManager() {
-    this->tables = std::vector<LocalConnectionManager> ();
-    this->fds = std::vector<int> ();
+    this->tables = std::vector<LocalConnectionManager>();
+    this->fds = std::vector<int>();
     this->serverAddr = sockaddr_in();
     this->stoppage = false;
 }
@@ -34,7 +34,7 @@ bool ConnectionManager::startup(int port) {
     this->serverAddr.sin_family = AF_INET;
     this->serverAddr.sin_port = htons(port);
     this->serverAddr.sin_addr.s_addr = INADDR_ANY;
-    if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
+    if (bind(serverSocket, (sockaddr * ) & serverAddr, sizeof(serverAddr)) == -1) {
         std::cerr << "Error binding socket\n";
         ::close(serverSocket);
         return false;
@@ -51,7 +51,7 @@ bool ConnectionManager::startup(int port) {
 }
 
 void ConnectionManager::close() {
-    for(auto i : fds){
+    for (auto i: fds) {
         ::close(i);
     }
     ::close(serverSocket);
@@ -66,7 +66,7 @@ void ConnectionManager::loopAdd() {
     while (!stoppage) {
         sockaddr_in clientAddr{};
         socklen_t clientAddrSize = sizeof(clientAddr);
-        int clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientAddrSize);
+        int clientSocket = accept(serverSocket, (sockaddr * ) & clientAddr, &clientAddrSize);
         if (clientSocket == -1) {
             std::cerr << "Error accepting connection\n";
             continue;
@@ -75,7 +75,7 @@ void ConnectionManager::loopAdd() {
     }
 }
 
-void ConnectionManager  ::addUser(int fd) {
+void ConnectionManager::addUser(int fd) {
     fds.emplace_back(fd);
 }
 
@@ -89,14 +89,13 @@ LocalConnectionManager &ConnectionManager::getTable(int index) {
 
 void ConnectionManager::addUserToTemporary(int tbl) {
     int clientSocket = -1;
-    while(clientSocket==-1){
+    while (clientSocket == -1) {
         sockaddr_in clientAddr{};
         socklen_t clientAddrSize = sizeof(clientAddr);
-        clientSocket = accept(serverSocket, (sockaddr *) &clientAddr, &clientAddrSize);
+        clientSocket = accept(serverSocket, (sockaddr * ) & clientAddr, &clientAddrSize);
         if (clientSocket == -1) {
             std::cerr << "Error accepting connection\n";
-        }
-        else{
+        } else {
             std::cout << "it should be fine\n";
         }
     }

@@ -6,7 +6,7 @@
 #include <random>
 #include <memory>
 
-class DeckComponent: public Component{
+class DeckComponent : public Component {
 private:
     std::vector<std::unique_ptr<Card>> deck;
     std::vector<std::unique_ptr<Card>> discard{};
@@ -18,7 +18,10 @@ private:
 
 public:
     DeckComponent(std::vector<std::unique_ptr<Card>> &&, std::default_random_engine &);
+
     void returnCard(std::unique_ptr<Card> &&);
+
     std::unique_ptr<CardHolder> getCard();
+
     void restart();
 };

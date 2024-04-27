@@ -14,7 +14,7 @@ std::string PlayersConnection::askForBet(int owned) {
 }
 
 // message = "AskMove:{numberOfMoves};{Message to print}
-std::string PlayersConnection::askForMove(const std::string& message) {
+std::string PlayersConnection::askForMove(const std::string &message) {
     size_t startOfMessageToPrint = message.find(';');
     int numberOfMoves = std::stoi(
             message.substr(8, startOfMessageToPrint - 8)), move{};

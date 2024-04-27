@@ -2,10 +2,10 @@
 #include "../../include/Components/PlayerComponent.hpp"
 #include "../../include/Components/ComponentProvider.hpp"
 
-PlayerComponent::PlayerComponent(ComponentProvider & componentProvider,
+PlayerComponent::PlayerComponent(ComponentProvider &componentProvider,
                                  unsigned int numberOfPlayers) :
-                                 componentProvider{componentProvider},
-                                 numberOfPlayers{numberOfPlayers} {
+        componentProvider{componentProvider},
+        numberOfPlayers{numberOfPlayers} {
     restart();
 }
 
@@ -18,9 +18,9 @@ void PlayerComponent::restart() {
 }
 
 void PlayerComponent::split() {
-    auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
-    auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
-    auto & chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
+    auto &hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
+    auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    auto &chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
     auto front = players.front();
     ++maxPlayerIndex;
     chips.splitPlayer(front);

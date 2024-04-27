@@ -6,7 +6,7 @@
 
 class ComponentProvider;
 
-class ConnectionComponent : public Component{
+class ConnectionComponent : public Component {
 private:
     AbstractSendRec &connection;
     std::vector<PlayerAddress> addresses;
@@ -15,8 +15,11 @@ public:
     explicit ConnectionComponent(unsigned int, AbstractSendRec &);
 
     std::string sendRec(std::string, PlayerIndex);
+
     void send(std::string, PlayerIndex);
-    void sendBroadcast(const std::string&);
+
+    void sendBroadcast(const std::string &);
+
     void splitConnection(PlayerIndex);
 
     void restart();

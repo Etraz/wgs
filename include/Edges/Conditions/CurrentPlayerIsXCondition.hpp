@@ -2,7 +2,7 @@
 
 #include "Condition.hpp"
 
-class CurrentPlayerIsXCondition : public Condition{
+class CurrentPlayerIsXCondition : public Condition {
 private:
     const PlayerIndex x;
 public:

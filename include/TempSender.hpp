@@ -1,4 +1,5 @@
 #pragma once
+
 #include "AbstractSendRec.hpp"
 
 class TempSender : public AbstractSendRec {
@@ -9,9 +10,9 @@ private:
     int askForMove(std::string);
 
 
-
 public:
-    int fd=-1;
+    int fd = -1;
+
     explicit TempSender(int);
 
     std::string getMessage(std::string) override;

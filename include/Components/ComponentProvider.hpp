@@ -14,9 +14,11 @@ private:
 public:
     ComponentProvider() = default;
 
-    void addComponent(std::unique_ptr<Component>, const std::string&);
-    [[nodiscard]] Component & getComponent(const std::string&) const;
+    void addComponent(std::unique_ptr<Component>, const std::string &);
+
+    [[nodiscard]] Component &getComponent(const std::string &) const;
 
     void setGameToContinue(bool);
+
     [[nodiscard]] bool isGameToContinue() const;
 };

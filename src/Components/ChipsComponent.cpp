@@ -1,7 +1,7 @@
 #include "../../include/Components/ChipsComponent.hpp"
 
 ChipsComponent::ChipsComponent(const unsigned int numberOfPlayers) :
-                               numberOfPlayers{numberOfPlayers} {
+        numberOfPlayers{numberOfPlayers} {
     owned.reserve(numberOfPlayers + 1);
     for (size_t i = 0; i <= numberOfPlayers; i++)
         owned.push_back(std::make_shared<int>(1000));
@@ -36,8 +36,8 @@ void ChipsComponent::returnBet(PlayerIndex index) {
     bet[index] = 0;
 }
 
-void ChipsComponent::returnHalfBet(PlayerIndex index){
-    *owned[index] += bet[index]/2;
+void ChipsComponent::returnHalfBet(PlayerIndex index) {
+    *owned[index] += bet[index] / 2;
     bet[index] = 0;
 }
 

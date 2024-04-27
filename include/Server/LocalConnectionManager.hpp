@@ -10,6 +10,7 @@
 
 #ifndef WGS_LOCALCONNECTIONMANAGER_HPP
 #define WGS_LOCALCONNECTIONMANAGER_HPP
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
@@ -20,11 +21,15 @@ class LocalConnectionManager {
 
 public:
     std::vector<int> fds;
+
     LocalConnectionManager();
 
     void addUser(int fd);
-    bool send(std::string s, int i=0);
+
+    bool send(std::string s, int i = 0);
+
     int sendToAll(std::string s);
+
     std::string receiveFromUser(int i);
 };
 

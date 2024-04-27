@@ -7,9 +7,8 @@
 #include "../../include/Server/LocalConnectionManager.hpp"
 
 
-
 bool LocalConnectionManager::send(std::string s, int i) {
-    if(::send(fds.at(i), s.c_str(), s.size(), 0)==-1){
+    if (::send(fds.at(i), s.c_str(), s.size(), 0) == -1) {
         return false;
     }
     return true;
@@ -29,7 +28,7 @@ std::string LocalConnectionManager::receiveFromUser(int i) {
 }
 
 int LocalConnectionManager::sendToAll(std::string s) {
-    for(auto i : fds){
+    for (auto i: fds) {
         ::send(i, s.c_str(), s.size(), 0);
     }
     return 0;

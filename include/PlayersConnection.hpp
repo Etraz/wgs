@@ -2,10 +2,12 @@
 
 #include "AbstractSendRec.hpp"
 
-class PlayersConnection : public AbstractSendRec{
+class PlayersConnection : public AbstractSendRec {
 private:
     static std::string askForBet(int);
-    static std::string askForMove(const std::string&);
+
+    static std::string askForMove(const std::string &);
+
 public:
     std::string getMessage(std::string) override;
 

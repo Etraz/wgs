@@ -24,7 +24,7 @@ inline const char *ToString(PlayingCardColor c) {
     }
 }
 
-class PlayingCard: public Card{
+class PlayingCard : public Card {
 private:
     int number{2};
     PlayingCardColor color;
@@ -34,7 +34,6 @@ public:
     int getNumber() const;
 
     PlayingCardColor getColor() const;
-
 
 
     std::string serialize() const override;

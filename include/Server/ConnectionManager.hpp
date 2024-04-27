@@ -9,6 +9,7 @@
 
 #ifndef WGS_CONNECTIONMANAGER_HPP
 #define WGS_CONNECTIONMANAGER_HPP
+
 #include "LocalConnectionManager.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -24,13 +25,21 @@ public:
     bool stoppage;
 
     ConnectionManager();
+
     void addUser(int fd);
+
     void addTable();
+
     void loopAdd();
+
     bool startup(int port);
+
     void close();
-    LocalConnectionManager& getTable(int index);
+
+    LocalConnectionManager &getTable(int index);
+
     void addUserTo(int index, int tbl);
+
     void addUserToTemporary(int tbl);
 };
 

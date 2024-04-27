@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <thread>
 #include <vector>
+
 // message = "AskBet:{owned}"
 std::string TempSender::getMessage(std::string message) {
     int x = -1;
@@ -58,7 +59,7 @@ int TempSender::askForMove(std::string message) {
     return move;
 }
 
-TempSender::TempSender(int fd): fd{fd} {
+TempSender::TempSender(int fd) : fd{fd} {
 
 }
 

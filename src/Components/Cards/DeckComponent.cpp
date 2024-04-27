@@ -20,9 +20,13 @@ std::unique_ptr<CardHolder> DeckComponent::getCard() {
     if (curr_index > deck.size()) {
         shuffle();
     }
-    return std::make_unique<CardHolder>(this, cardHolderIndex, std::move(deck.at(curr_index++)));
+    return std::make_unique<CardHolder>(this, cardHolderIndex++, std::move(deck.at(curr_index++)));
 }
 
 void DeckComponent::returnCard(std::unique_ptr<Card> && card) {
     discard.push_back(std::move(card));
+}
+
+void DeckComponent::restart() {
+    cardHolderIndex = 0;
 }

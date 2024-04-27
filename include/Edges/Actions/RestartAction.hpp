@@ -2,7 +2,7 @@
 
 #include "Action.hpp"
 
-class ClearHandsAction : public Action {
+class RestartAction : public Action {
 public:
     void run(ComponentProvider &) override;
 };

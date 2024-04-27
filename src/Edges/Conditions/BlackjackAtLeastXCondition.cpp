@@ -5,7 +5,8 @@ BlackjackAtLeastXCondition::BlackjackAtLeastXCondition(int x) : x{x} {}
 
 bool BlackjackAtLeastXCondition::check(ComponentProvider &componentProvider) {
     auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
-    auto & hand = componentProvider.getNextPlayer() == 1 ? hands.getPlayersHand() : hands.getDealersHand();
+    auto & players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
+    auto & hand = hands.getHand(players.getCurrentPlayer());
     int sum{}, numberOfAces{}, number;
     for (auto & cardHolder: hand){
         auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());

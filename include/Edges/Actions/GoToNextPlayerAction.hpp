@@ -2,6 +2,6 @@
 
 #include "Action.hpp"
 
-class ChangeToDealerAction : public Action {
+class GoToNextPlayerAction : public Action {
     void run(ComponentProvider &) override;
 };

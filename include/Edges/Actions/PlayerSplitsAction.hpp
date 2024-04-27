@@ -2,7 +2,7 @@
 
 #include "Action.hpp"
 
-class PlayerTiedAction : public Action {
-public:
+class PlayerSplitsAction : public Action{
     void run(ComponentProvider &) override;
+
 };

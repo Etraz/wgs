@@ -1,22 +1,8 @@
-#include "../include/PlayerConnection.hpp"
+#include "../include/PlayersConnection.hpp"
 #include <iostream>
 
-// message = "AskBet:{owned}"
-std::string PlayerConnection::getMessage(std::string message) {
-    int x = -1;
-    if (message.starts_with("AskBet:"))
-        x = askForBet(std::stoi(message.substr(7)));
-    else if (message.starts_with("AskMove:"))
-        x = askForMove(message);
-    else
-        std::cout << message << std::endl;
-    if (x == -1)
-        return "";
-    return std::to_string(x);
-}
-
-int PlayerConnection::askForBet(int owned) {
-    int bet;
+std::string PlayersConnection::askForBet(int owned) {
+    int bet{};
     while (true) {
         std::cout << "PLEASE PLACE THE BET. YOU OWN " << owned << "\nYOUR MOVE: ";
         std::cin >> bet;
@@ -24,13 +10,14 @@ int PlayerConnection::askForBet(int owned) {
             break;
         std::cout << "INCORRECT INPUT" << std::endl;
     }
-    return bet;
+    return "AskBetResp:" + std::to_string(bet);
 }
 
 // message = "AskMove:{numberOfMoves};{Message to print}
-int PlayerConnection::askForMove(std::string message) {
-    int startOfMessageToPrint = message.find(';'), numberOfMoves = std::stoi(
-            message.substr(8, startOfMessageToPrint - 8)), move;
+std::string PlayersConnection::askForMove(const std::string& message) {
+    size_t startOfMessageToPrint = message.find(';');
+    int numberOfMoves = std::stoi(
+            message.substr(8, startOfMessageToPrint - 8)), move{};
     std::string toPrint = message.substr(startOfMessageToPrint + 1);
     while (true) {
         std::cout << toPrint << "\nPLEASE CHOOSE YOUR MOVE.\nYOUR MOVE: ";
@@ -39,5 +26,25 @@ int PlayerConnection::askForMove(std::string message) {
             break;
         std::cout << "INCORRECT INPUT" << std::endl;
     }
-    return move;
+    return "AskMoveResp:" + std::to_string(move);
+}
+
+std::string PlayersConnection::sendRec(std::string message, PlayerAddress address) {
+    std::string response;
+    std::cout << "SendRec to " << address << std::endl;
+    if (message.starts_with("AskBet:"))
+        response = askForBet(std::stoi(message.substr(7)));
+    else if (message.starts_with("AskMove:"))
+        response = askForMove(message);
+    if (response.empty())
+        throw std::runtime_error{"Messege type not recognized"};
+    return response;
+}
+
+void PlayersConnection::send(std::string message, PlayerAddress address) {
+    std::cout << "Send to " << address << '\n' << message << std::endl;
+}
+
+std::string PlayersConnection::getMessage(std::string) {
+    return {};
 }

@@ -61,3 +61,11 @@ int TempSender::askForMove(std::string message) {
 TempSender::TempSender(int fd): fd{fd} {
 
 }
+
+std::string TempSender::sendRec(std::string mess, PlayerAddress target) {
+    return std::string();
+}
+
+void TempSender::send(std::string mess, PlayerAddress target) {
+
+}

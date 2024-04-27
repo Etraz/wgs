@@ -4,18 +4,15 @@
 #include "include/Game.hpp"
 #include "include/Edges/Actions/GetBetFromPlayerAction.hpp"
 #include "include/Edges/Actions/PlayerDrawsCardAction.hpp"
-#include "include/Edges/Actions/ChangeToDealerAction.hpp"
-#include "include/Edges/Actions/ChangeToPlayerAction.hpp"
 #include "include/Edges/Actions/PlayerDrawsReversedCardAction.hpp"
-#include "include/Edges/Actions/SendHandsAction.hpp"
 #include "include/Edges/Actions/EmptyAction.hpp"
 #include "include/Edges/Actions/DoublePlayersBetAction.hpp"
 #include "include/Edges/Actions/ShowDealersCardsAction.hpp"
-#include "include/Edges/Actions/PlayerWonAction.hpp"
+#include "include/Edges/Actions/DoubleAndReturnPlayersBetAction.hpp"
 #include "include/Edges/Actions/EndGameAction.hpp"
 #include "include/Edges/Actions/SendMessageAction.hpp"
-#include "include/Edges/Actions/ClearHandsAction.hpp"
-#include "include/Edges/Actions/PlayerTiedAction.hpp"
+#include "include/Edges/Actions/RestartAction.hpp"
+#include "include/Edges/Actions/ReturnPlayerBetAction.hpp"
 #include "include/Edges/Conditions/AlwaysTrueCondition.hpp"
 #include "include/Edges/Conditions/HandSizeUnderXCondition.hpp"
 #include "include/Edges/Conditions/PlayerCanDoubleBetCondition.hpp"
@@ -23,9 +20,15 @@
 #include "include/Edges/Conditions/BlackjackAtLeastXCondition.hpp"
 #include "include/Edges/Conditions/NotCondition.hpp"
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
-#include "include/Edges/Conditions/PlayerCanBetCondition.hpp"
 #include "include/Components/HandsComponent.hpp"
-#include "include/PlayerConnection.hpp"
+#include "include/PlayersConnection.hpp"
+#include "include/Edges/Actions/GoToNextPlayerAction.hpp"
+#include "include/Edges/Actions/MultiAction.hpp"
+#include "include/Edges/Actions/PlayerSplitsAction.hpp"
+#include "include/Edges/Actions/ReturnHalfOfPlayerBetAction.hpp"
+#include "include/Edges/Conditions/CurrentPlayerIsXCondition.hpp"
+#include "include/Edges/Conditions/PlayerCanSplitCondition.hpp"
+#include "include/Edges/Conditions/PlayerHaveNon0BetCondition.hpp"
 
 int main(int, char **) {
     std::vector<std::unique_ptr<Card>> deck;
@@ -39,38 +42,62 @@ int main(int, char **) {
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    PlayerConnection connection{};
+    PlayersConnection connection{};
+    PlayerIndex numberOfPlayers = 4;
 
 
     ComponentProvider componentProvider{};
 
-    componentProvider.addComponent(std::make_unique<HandsComponent>(HandsComponent{componentProvider}), "HandsComponent");
-    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent{connection}), "ConnectionComponent");
-    componentProvider.addComponent(std::make_unique<ChipsComponent>(ChipsComponent{1000}), "ChipsComponent");
+    componentProvider.addComponent(std::make_unique<HandsComponent>(HandsComponent(componentProvider, numberOfPlayers)), "HandsComponent");
+    componentProvider.addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent(numberOfPlayers, connection)), "ConnectionComponent");
+    componentProvider.addComponent(std::make_unique<ChipsComponent>(ChipsComponent(numberOfPlayers)), "ChipsComponent");
     componentProvider.addComponent(std::make_unique<DeckComponent>(DeckComponent{std::move(deck),e}), "DeckComponent");
+    componentProvider.addComponent(std::make_unique<PlayerComponent>(PlayerComponent{componentProvider, numberOfPlayers}), "PlayersComponent");
 
     std::vector<std::vector<Edge>> edges;
-    edges.resize(22);
+    edges.resize(12);
+
+    auto emptyAction = std::make_shared<EmptyAction>(EmptyAction{});
 
     auto getBetFromPlayerAction = std::make_shared<GetBetFromPlayerAction>(GetBetFromPlayerAction{});
     auto playerDrawsCardAction = std::make_shared<PlayerDrawsCardAction>(PlayerDrawsCardAction{});
-    auto changeToDealerAction = std::make_shared<ChangeToDealerAction>(ChangeToDealerAction{});
-    auto changeToPlayerAction = std::make_shared<ChangeToPlayerAction>(ChangeToPlayerAction{});
+    auto goToNextPlayerAction = std::make_shared<GoToNextPlayerAction>(GoToNextPlayerAction{});
+    auto playerBetsAndDrawsAction = std::make_shared<MultiAction>(MultiAction({getBetFromPlayerAction,
+                                                                               playerDrawsCardAction,
+                                                                               playerDrawsCardAction,
+                                                                               goToNextPlayerAction}));
     auto playerDrawsReversedCardAction = std::make_shared<PlayerDrawsReversedCardAction>(PlayerDrawsReversedCardAction{});
-    auto sendHandsAction = std::make_shared<SendHandsAction>(SendHandsAction{});
-    auto emptyAction = std::make_shared<EmptyAction>(EmptyAction{});
-    auto doublePlayersBetAction = std::make_shared<DoublePlayersBetAction>(DoublePlayersBetAction{});
+    auto dealerDrawsCardsAction = std::make_shared<MultiAction>(MultiAction({playerDrawsCardAction,
+                                                                             playerDrawsReversedCardAction,
+                                                                             goToNextPlayerAction}));
     auto showDealersCardsAction = std::make_shared<ShowDealersCardsAction>(ShowDealersCardsAction{});
-    auto playerWonAction = std::make_shared<PlayerWonAction>(PlayerWonAction{});
-    auto playerLostAction = std::make_shared<SendMessageAction>(SendMessageAction{"YOU LOST\n"});
+    auto doublePlayersBetAction = std::make_shared<DoublePlayersBetAction>(DoublePlayersBetAction{});
+    auto playerDoublesAction = std::make_shared<MultiAction>(MultiAction({doublePlayersBetAction,
+                                                                          playerDrawsCardAction,
+                                                                          goToNextPlayerAction}));
+    auto playerSplitsAction = std::make_shared<PlayerSplitsAction>(PlayerSplitsAction{});
+    auto returnHalfOfPlayerBetAction = std::make_shared<ReturnHalfOfPlayerBetAction>(ReturnHalfOfPlayerBetAction{});
+    auto playerSurrendresAction = std::make_shared<MultiAction>(MultiAction({returnHalfOfPlayerBetAction,
+                                                                             goToNextPlayerAction}));
+    auto doubleAndReturnPlayersBet = std::make_shared<DoubleAndReturnPlayersBetAction>(DoubleAndReturnPlayersBetAction{});
+    auto playerWonAction = std::make_shared<MultiAction>(MultiAction({doubleAndReturnPlayersBet,
+                                                                      goToNextPlayerAction}));
+    auto sendPlayerLostInfo = std::make_shared<SendMessageAction>(SendMessageAction{"YOU LOST"});
+    auto playerLostAction = std::make_shared<MultiAction>(MultiAction({sendPlayerLostInfo,
+                                                                       goToNextPlayerAction}));
+    auto returnPlayerBetAction = std::make_shared<ReturnPlayerBetAction>(ReturnPlayerBetAction{});
+    auto playerTiedAction = std::make_shared<MultiAction>(MultiAction({returnPlayerBetAction,
+                                                                       goToNextPlayerAction}));
     auto endGameAction = std::make_shared<EndGameAction>(EndGameAction{});
-    auto clearHandsAction = std::make_shared<ClearHandsAction>(ClearHandsAction{});
-    auto playerTiedAction = std::make_shared<PlayerTiedAction>(PlayerTiedAction{});
+    auto restartAction = std::make_shared<RestartAction>(RestartAction{});
 
     auto alwaysTrueCondition = std::make_shared<AlwaysTrueCondition>(AlwaysTrueCondition{});
+    auto dealerIsCurrentPlayerCondition = std::make_shared<CurrentPlayerIsXCondition>(CurrentPlayerIsXCondition{0});
+    auto playerIsCurrentPlayerCondition = std::make_shared<NotCondition>(NotCondition{dealerIsCurrentPlayerCondition});
     auto handSizeUnder3Condition = std::make_shared<HandSizeUnderXCondition>(HandSizeUnderXCondition{3});
     auto playerCanDoubleBetCondition = std::make_shared<PlayerCanDoubleBetCondition>(PlayerCanDoubleBetCondition{});
-    auto canDoubleCondition = std::make_shared<AndCondition>(AndCondition(handSizeUnder3Condition, playerCanDoubleBetCondition));
+    auto playerCanDoubleCondition = std::make_shared<AndCondition>(AndCondition(handSizeUnder3Condition, playerCanDoubleBetCondition));
+    auto playerCanSplitCondition = std::make_shared<PlayerCanSplitCondition>(PlayerCanSplitCondition{});
     auto playerBustedCondition = std::make_shared<BlackjackAtLeastXCondition>(BlackjackAtLeastXCondition{22});
     auto playerDidntBustedCondition = std::make_shared<NotCondition>(NotCondition(playerBustedCondition));
     auto dealerToEndDrawingCondition = std::make_shared<BlackjackAtLeastXCondition>(BlackjackAtLeastXCondition{17});
@@ -78,43 +105,40 @@ int main(int, char **) {
     auto playerHasMoreThanDealerCondition = std::make_shared<RelationBetweenPlayerAndDealerHandCondition>(RelationBetweenPlayerAndDealerHandCondition{greater});
     auto playerHasLessThanDealerCondition = std::make_shared<RelationBetweenPlayerAndDealerHandCondition>(RelationBetweenPlayerAndDealerHandCondition{lesser});
     auto playerAndDealerHasTheSameCondition = std::make_shared<RelationBetweenPlayerAndDealerHandCondition>(RelationBetweenPlayerAndDealerHandCondition{equal});
-    auto playerCanBetCondition = std::make_shared<PlayerCanBetCondition>(PlayerCanBetCondition{});
-    auto playerCannotBetCondition = std::make_shared<NotCondition>(NotCondition{playerCanBetCondition});
+    auto playerHaveNon0BetCondition = std::make_shared<PlayerHaveNon0BetCondition>(PlayerHaveNon0BetCondition{});
+    auto playerBetAndDidntBust = std::make_shared<AndCondition>(AndCondition(playerDidntBustedCondition, playerHaveNon0BetCondition));
+    auto playerDidntBetOrBust = std::make_shared<NotCondition>(NotCondition{playerBetAndDidntBust});
 
-    edges[0].push_back(Edge{"", getBetFromPlayerAction, playerCanBetCondition, 1});
-    edges[0].push_back(Edge{"", endGameAction, playerCannotBetCondition, 21});
-    edges[1].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 2});
-    edges[2].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 3});
-    edges[3].push_back(Edge{"", changeToDealerAction, alwaysTrueCondition, 4});
-    edges[4].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 5});
-    edges[5].push_back(Edge{"", playerDrawsReversedCardAction, alwaysTrueCondition, 6});
-    edges[6].push_back(Edge{"", changeToPlayerAction, alwaysTrueCondition, 7});
-    edges[7].push_back(Edge{"", changeToPlayerAction, alwaysTrueCondition, 19});
-    edges[19].push_back(Edge{"", sendHandsAction, alwaysTrueCondition, 8});
-    edges[8].push_back(Edge{"HIT ", playerDrawsCardAction, alwaysTrueCondition, 9});
-    edges[8].push_back(Edge{"DOUBLE ", doublePlayersBetAction, canDoubleCondition, 11});
-    edges[8].push_back(Edge{"STAY ", emptyAction, alwaysTrueCondition, 10});
-    edges[11].push_back(Edge{"", playerDrawsCardAction, alwaysTrueCondition, 12});
-    edges[12].push_back(Edge{"", playerLostAction, playerBustedCondition, 17});
-    edges[12].push_back(Edge{"", emptyAction, playerDidntBustedCondition, 10});
-    edges[9].push_back(Edge{"", playerLostAction, playerBustedCondition, 17});
-    edges[9].push_back(Edge{"", emptyAction, playerDidntBustedCondition, 19});
-    edges[10].push_back(Edge{"", showDealersCardsAction, alwaysTrueCondition, 13});
-    edges[13].push_back(Edge{"", sendHandsAction, alwaysTrueCondition, 14});
-    edges[14].push_back(Edge{"", changeToDealerAction, alwaysTrueCondition, 15});
-    edges[15].push_back(Edge{"", playerDrawsCardAction, dealerToDrawCondition, 15});
-    edges[15].push_back(Edge{"", emptyAction, dealerToEndDrawingCondition, 20});
-    edges[20].push_back(Edge{"", playerWonAction, playerBustedCondition, 17});
-    edges[20].push_back(Edge{"", emptyAction, playerDidntBustedCondition, 16});
-    edges[16].push_back(Edge{"", playerWonAction, playerHasMoreThanDealerCondition, 17});
-    edges[16].push_back(Edge{"", playerLostAction, playerHasLessThanDealerCondition, 17});
-    edges[16].push_back(Edge{"", playerTiedAction, playerAndDealerHasTheSameCondition, 17});
-    edges[17].push_back(Edge{"NEXT GAME ", changeToPlayerAction, alwaysTrueCondition, 18});
-    edges[17].push_back(Edge{"END ", endGameAction, alwaysTrueCondition, 21});
-    edges[18].push_back(Edge{"", clearHandsAction, alwaysTrueCondition, 0});
+    edges[0].push_back(Edge{"", playerBetsAndDrawsAction, playerIsCurrentPlayerCondition, 0});
+    edges[0].push_back(Edge{"", dealerDrawsCardsAction, dealerIsCurrentPlayerCondition, 1});
+    edges[1].push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 2});
+    edges[1].push_back(Edge{"", showDealersCardsAction, dealerIsCurrentPlayerCondition, 4});
+    edges[2].push_back(Edge{"HIT", playerDrawsCardAction, alwaysTrueCondition, 3});
+    edges[2].push_back(Edge{"STAY", goToNextPlayerAction, alwaysTrueCondition, 1});
+    edges[2].push_back(Edge{"DOUBLE", playerDoublesAction, playerCanDoubleCondition, 1});
+    edges[2].push_back(Edge{"SPLIT", playerSplitsAction, playerCanSplitCondition, 2});
+    edges[2].push_back(Edge{"SURRENDER", playerSurrendresAction, alwaysTrueCondition, 1});
+    edges[3].push_back(Edge{"", emptyAction, playerDidntBustedCondition, 2});
+    edges[3].push_back(Edge{"", goToNextPlayerAction, playerBustedCondition, 1});
+    edges[4].push_back(Edge{"", playerDrawsCardAction, dealerToDrawCondition, 4});
+    edges[4].push_back(Edge{"", emptyAction, dealerToEndDrawingCondition, 5});
+    edges[5].push_back(Edge{"", goToNextPlayerAction, playerBustedCondition, 6});
+    edges[5].push_back(Edge{"", goToNextPlayerAction, playerDidntBustedCondition, 8});
+    edges[6].push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 7});
+    edges[6].push_back(Edge{"", emptyAction, dealerIsCurrentPlayerCondition, 11});
+    edges[7].push_back(Edge{"", playerWonAction, playerBetAndDidntBust, 6});
+    edges[7].push_back(Edge{"", goToNextPlayerAction, playerDidntBetOrBust, 6});
+    edges[8].push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 9});
+    edges[8].push_back(Edge{"", emptyAction, dealerIsCurrentPlayerCondition, 11});
+    edges[9].push_back(Edge{"", goToNextPlayerAction, playerDidntBetOrBust, 8});
+    edges[9].push_back(Edge{"", emptyAction, playerBetAndDidntBust, 10});
+    edges[10].push_back(Edge{"", playerWonAction, playerHasMoreThanDealerCondition, 8});
+    edges[10].push_back(Edge{"", playerLostAction, playerHasLessThanDealerCondition, 8});
+    edges[10].push_back(Edge{"", playerTiedAction, playerAndDealerHasTheSameCondition, 8});
+    edges[11].push_back(Edge{"NEXT GAME ", restartAction, alwaysTrueCondition, 0});
+    edges[11].push_back(Edge{"END ", endGameAction, alwaysTrueCondition, 0});
 
     Graph graph{edges, componentProvider, 0};
     Game game{componentProvider, graph};
     game.start();
-
 }

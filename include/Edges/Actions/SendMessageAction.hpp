@@ -6,7 +6,7 @@ class SendMessageAction : public Action {
 private:
     std::string message;
 public:
-    SendMessageAction(std::string);
+    explicit SendMessageAction(std::string);
 
     void run(ComponentProvider &) override;
 };

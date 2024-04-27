@@ -9,7 +9,7 @@ Graph::Graph(std::vector<std::vector<Edge>> &edges,
         currentVertex{startingVertex} {}
 
 void Graph::move() {
-//    std::cout << "current vertex = " << currentVertex << std::endl;
+    std::cout << "current vertex = " << currentVertex << std::endl;
     auto &neighbours = edges[currentVertex];
     std::vector<int> possible;
     for (int i = 0; i < neighbours.size(); ++i) {
@@ -24,18 +24,19 @@ void Graph::move() {
     else {
         std::string message = "AskMove:";
         message += std::to_string(possible.size());
-        message += ';';
-        for (int i = 0; i < possible.size(); ++i) {
-            message += std::to_string(i + 1);
-            message += ". ";
-            message += neighbours[possible[i]].getMessage();
+        for (int i : possible) {
+            message += ';';
+            message += neighbours[i].getMessage();
         }
         int nextMove = askPlayerForMove(message);
         currentVertex = neighbours[possible[nextMove]].choose(componentProvider);
     }
 }
 
-int Graph::askPlayerForMove(std::string message) {
+int Graph::askPlayerForMove(const std::string& message) {
     auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
-    return std::stoi(connection.sendMessage(message)) - 1;
+    auto & players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
+    auto response = connection.sendRec(message, players.getCurrentPlayer());
+
+    return std::stoi(response.substr(response.find(':') + 1)) - 1;
 }

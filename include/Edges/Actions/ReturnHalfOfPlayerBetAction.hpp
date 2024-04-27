@@ -1,8 +1,8 @@
-#pragma once
+# pragma once
 
 #include "Action.hpp"
 
-class PlayerWonAction : public Action {
+class ReturnHalfOfPlayerBetAction : public Action{
 public:
     void run(ComponentProvider &) override;
 };

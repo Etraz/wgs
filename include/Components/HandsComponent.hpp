@@ -11,15 +11,17 @@ class ConnectionComponent;
 
 class HandsComponent : public Component{
 private:
-    std::vector<std::unique_ptr<CardHolder>> players, dealers;
-    ComponentProvider & componentProvider;
+    std::vector<std::vector<std::unique_ptr<CardHolder>>> hands;
     ConnectionComponent& getConnectionComponent();
+    ComponentProvider & componentProvider;
+    unsigned int numberOfPlayers;
 public:
-    explicit HandsComponent(ComponentProvider&);
-    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> & getPlayersHand() const ;
-    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> & getDealersHand() const ;
-    void clear();
+    HandsComponent(ComponentProvider&, unsigned int);
+    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> & getHand(PlayerIndex) const ;
     void addCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
-    //TODO this but single card
+    //TODO this but single card (why??)
     void showPlayersCards(PlayerIndex);
+    void splitHand(PlayerIndex);
+
+    void restart();
 };

@@ -5,9 +5,10 @@ RelationBetweenPlayerAndDealerHandCondition::RelationBetweenPlayerAndDealerHandC
 
 bool RelationBetweenPlayerAndDealerHandCondition::check(ComponentProvider &componentProvider) {
     auto & hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
+    auto & players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
     int sumPlayer{}, sumDealer{}, numberOfAces{}, number;
-    auto & playerHand = hands.getPlayersHand();
-    auto & dealerHand = hands.getDealersHand();
+    auto & playerHand = hands.getHand(players.getCurrentPlayer());
+    auto & dealerHand = hands.getHand(0);
     for (auto & cardHolder: playerHand){
         auto & card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         number = card.getNumber();

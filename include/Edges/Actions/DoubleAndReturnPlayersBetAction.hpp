@@ -2,6 +2,7 @@
 
 #include "Action.hpp"
 
-class SendHandsAction : public Action {
+class DoubleAndReturnPlayersBetAction : public Action {
+public:
     void run(ComponentProvider &) override;
 };

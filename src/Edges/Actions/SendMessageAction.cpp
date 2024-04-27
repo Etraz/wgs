@@ -6,5 +6,5 @@ SendMessageAction::SendMessageAction(std::string message) : message{std::move(me
 
 void SendMessageAction::run(ComponentProvider &componentProvider) {
     auto & connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
-    connection.sendMessage(message);
+    connection.sendBroadcast("PrintMessage:" + message);
 }

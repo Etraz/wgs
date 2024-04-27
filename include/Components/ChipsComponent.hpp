@@ -1,21 +1,32 @@
 #pragma once
 #include "Component.hpp"
+#include <vector>
+#include <memory>
+
+class ComponentProvider;
 
 class ChipsComponent: public Component{
 private:
-    int owned, bet;
+    std::vector<std::shared_ptr<int>> owned;
+    std::vector<int> bet;
+    const unsigned int numberOfPlayers;
+
 public:
-    ChipsComponent(int);
+    explicit ChipsComponent(unsigned int);
 
-    int getBet() const;
+    [[nodiscard]] int getBet(PlayerIndex) const;
 
-    int getOwned() const;
+    [[nodiscard]] int getOwned(PlayerIndex) const;
 
-    void doubleBet();
+    void doubleBet(PlayerIndex);
 
-    void newBet(int);
+    void newBet(PlayerIndex, int);
 
-    void won();
+    void won(PlayerIndex);
 
-    void returnBet();
+    void returnBet(PlayerIndex);
+    void returnHalfBet(PlayerIndex);
+    void splitPlayer(PlayerIndex);
+
+    void restart();
 };

@@ -9,7 +9,7 @@ private:
     ComponentProvider &componentProvider;
     int currentVertex;
 
-    int askPlayerForMove(std::string);
+    int askPlayerForMove(const std::string&);
 
 public:
     Graph(std::vector<std::vector<Edge>> &, ComponentProvider &, int);

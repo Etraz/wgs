@@ -7,6 +7,8 @@ ConnectionComponent::ConnectionComponent(const unsigned int numberOfPlayers,
         numberOfPlayers{numberOfPlayers},
         connection{connection} {
     addresses.resize(numberOfPlayers + 1);
+
+    // to be removed
     for (size_t i = 0; i <= numberOfPlayers; i++)
         addresses[i] = i;
 }

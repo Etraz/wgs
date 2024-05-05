@@ -36,7 +36,7 @@ ConnectionComponent &HandsComponent::getConnectionComponent() {
 }
 
 void HandsComponent::restart() {
-    for (size_t i = hands.size() - 1; i >= 0; i++) {
+    for (size_t i = 0; i < hands.size(); i++) {
         auto &hand = hands[i];
         for (auto &card: hand)
             card->returnCard();

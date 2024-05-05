@@ -23,13 +23,12 @@ void PlayerComponent::split() {
     auto &chips = dynamic_cast<ChipsComponent &>(componentProvider.getComponent("ChipsComponent"));
     auto front = players.front();
     ++maxPlayerIndex;
-    chips.splitPlayer(front);
     players.pop_front();
     players.push_front(maxPlayerIndex);
     players.push_front(front);
+    connection.splitConnection(front);
     chips.splitPlayer(front);
     hands.splitHand(front);
-    connection.splitConnection(front);
 }
 
 void PlayerComponent::nextPlayer() {

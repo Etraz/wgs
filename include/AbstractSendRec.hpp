@@ -2,7 +2,7 @@
 
 #include <string>
 
-using PlayerAddress = unsigned long long;
+using PlayerAddress = int;
 
 class AbstractSendRec {
 public:

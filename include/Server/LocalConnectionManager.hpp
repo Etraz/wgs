@@ -18,7 +18,6 @@
 
 class LocalConnectionManager {
 
-
 public:
     std::vector<int> fds;
 
@@ -32,6 +31,5 @@ public:
 
     std::string receiveFromUser(int i);
 };
-
 
 #endif //WGS_LOCALCONNECTIONMANAGER_HPP

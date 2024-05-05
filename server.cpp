@@ -21,7 +21,7 @@
 #include "include/Edges/Conditions/NotCondition.hpp"
 #include "include/Edges/Conditions/RelationBetweenPlayerAndDealerHandCondition.hpp"
 #include "include/Server/ConnectionManager.hpp"
-#include "include/TempSender.hpp"
+#include "include/BJSendRec.hpp"
 #include "include/Components/HandsComponent.hpp"
 #include "include/Edges/Actions/GoToNextPlayerAction.hpp"
 #include "include/Edges/Actions/MultiAction.hpp"
@@ -34,16 +34,12 @@
 int main(int, char **) {
 
     ConnectionManager cm{};
-    cm.startup(4000);
+    cm.startup(8080);
 
     cm.addTable();
     std::cout << "Table added!\n";
-    cm.addUserToTemporary(0);
-    std::cout<< "User added\n";
     // PASS communication into the game!
-    cm.getTable(0).send("hello!");
-    std::cout << "Message recieved: " << cm.getTable(0).receiveFromUser(0) << '\n';
-    int fd = cm.getTable(0).fds.at(0);
+
 
 
     std::vector<std::unique_ptr<Card>> deck;
@@ -57,9 +53,12 @@ int main(int, char **) {
     }
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
-    TempSender connection{fd};
+    BJSendRec connection{cm.getTable(0)};
     PlayerIndex numberOfPlayers = 4;
-
+    for (int i=0; i<numberOfPlayers; i++){
+        cm.addUserToTemporary(0);
+        std::cout<< "User added "<<i<<"\n";
+    }
 
     ComponentProvider componentProvider{};
 

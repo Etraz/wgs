@@ -42,7 +42,11 @@ add_executable(server server.cpp
         src/Edges/Conditions/PlayerCanBetCondition.cpp
         src/Components/Component.cpp
         src/Components/Cards/Card.cpp
-        src/TempSender.cpp src/Edges/Actions/MultiAction.cpp src/Components/PlayerComponent.cpp src/Edges/Actions/GoToNextPlayerAction.cpp src/Edges/Actions/PlayerSplitsAction.cpp src/Edges/Conditions/PlayerCanSplitCondition.cpp src/Edges/Actions/ReturnHalfOfPlayerBetAction.cpp src/Edges/Conditions/CurrentPlayerIsXCondition.cpp src/Edges/Conditions/OrCondition.cpp src/Edges/Conditions/PlayerHaveNon0BetCondition.cpp)
+        src/TempSender.cpp src/Edges/Actions/MultiAction.cpp src/Components/PlayerComponent.cpp src/Edges/Actions/GoToNextPlayerAction.cpp src/Edges/Actions/PlayerSplitsAction.cpp src/Edges/Conditions/PlayerCanSplitCondition.cpp src/Edges/Actions/ReturnHalfOfPlayerBetAction.cpp src/Edges/Conditions/CurrentPlayerIsXCondition.cpp src/Edges/Conditions/OrCondition.cpp src/Edges/Conditions/PlayerHaveNon0BetCondition.cpp
+        src/Server/UDPManager.cpp
+        include/Server/UDPManager.hpp
+        src/BJSendRec.cpp
+        include/BJSendRec.hpp)
 
 add_executable(local local.cpp
         src/Components/Cards/CardHolder.cpp

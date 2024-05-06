@@ -54,7 +54,7 @@ int main(int, char **) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
     BJSendRec connection{cm.getTable(0)};
-    PlayerIndex numberOfPlayers = 4;
+    PlayerIndex numberOfPlayers = 1;
     for (int i=0; i<numberOfPlayers; i++){
         cm.addUserToTemporary(0);
         std::cout<< "User added "<<i<<"\n";

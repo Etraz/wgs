@@ -29,9 +29,9 @@ void ConnectionComponent::restart() {
     addresses.resize(numberOfPlayers + 1);
 }
 
-void ConnectionComponent::sendBroadcast(const std::string &messege) {
+void ConnectionComponent::sendBroadcast(const std::string &message) {
     for (size_t i = 1; i < addresses.size(); i++)
-        connection.send(messege, addresses[i]);
+        connection.send(message, addresses[i]);
 }
 
 

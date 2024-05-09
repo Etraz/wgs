@@ -154,6 +154,7 @@ int main(int, char **) {
 
     Graph graph{edges, componentProvider, 0};
     Game game{componentProvider, graph};
+    std::cout << "Game to Start" << std::endl;
     game.start();
 
 

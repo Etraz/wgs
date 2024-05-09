@@ -1,6 +1,7 @@
 //
 // Created by przem on 07.04.2024.
 //
+#include <iostream>
 #include <sys/socket.h>
 #include <thread>
 #include <vector>
@@ -8,6 +9,7 @@
 
 
 bool LocalConnectionManager::send(std::string s, int i) {
+    std::cout << "i = " << i << " fds.size = " << fds.size() <<  std::endl;
     if (::send(fds.at(i), s.c_str(), s.size(), 0) == -1) {
         return false;
     }
@@ -16,6 +18,7 @@ bool LocalConnectionManager::send(std::string s, int i) {
 
 void LocalConnectionManager::addUser(int fd) {
     fds.emplace_back(fd);
+    std::cout << "fds.size = " << fds.size() << std::endl;
 }
 
 std::string LocalConnectionManager::receiveFromUser(int i) {

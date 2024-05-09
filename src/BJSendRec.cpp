@@ -4,8 +4,7 @@
 
 #include "../include/BJSendRec.hpp"
 
-BJSendRec::BJSendRec(const LocalConnectionManager &lcm) {
-    this->lcm = lcm;
+BJSendRec::BJSendRec(LocalConnectionManager &lcm): lcm{lcm} {
 }
 
 std::string BJSendRec::getMessage(std::string) {
@@ -13,14 +12,13 @@ std::string BJSendRec::getMessage(std::string) {
 }
 
 std::string BJSendRec::sendRec(std::string s, PlayerAddress i) {
-    lcm.send(s, i);
-
+    send(s, i);
 
     return lcm.receiveFromUser(i);
 }
 
 void BJSendRec::send(std::string s, PlayerAddress i) {
-    lcm.send(s, i);
+    lcm.send(s + '\n', i);
 
 
 }

@@ -12,10 +12,10 @@
 class BJSendRec : public AbstractSendRec {
 
 private:
-    LocalConnectionManager lcm;
+    LocalConnectionManager &  lcm;
 
 public:
-    explicit BJSendRec(LocalConnectionManager const & lcm);
+    explicit BJSendRec(LocalConnectionManager & lcm);
 
     std::string getMessage(std::string) override;
 

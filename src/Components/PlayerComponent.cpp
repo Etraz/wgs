@@ -12,7 +12,7 @@ PlayerComponent::PlayerComponent(ComponentProvider &componentProvider,
 void PlayerComponent::restart() {
     players.clear();
     for (PlayerIndex i = 0; i <= numberOfPlayers; i++)
-        players.push_back(i);
+        players.push_back(0);
     maxPlayerIndex = numberOfPlayers;
     nextPlayer();
 }

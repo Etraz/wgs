@@ -7,10 +7,11 @@ ConnectionComponent::ConnectionComponent(const unsigned int numberOfPlayers,
         numberOfPlayers{numberOfPlayers},
         connection{connection} {
     addresses.resize(numberOfPlayers + 1);
+    sendBroadcastTo.resize(numberOfPlayers + 1, true);
 
     // to be removed
     for (size_t i = 0; i <= numberOfPlayers; i++)
-        addresses[i] = i;
+        addresses[i] = 0;
 }
 
 std::string ConnectionComponent::sendRec(std::string message, PlayerIndex index) {
@@ -23,15 +24,18 @@ void ConnectionComponent::send(std::string message, PlayerIndex index) {
 
 void ConnectionComponent::splitConnection(PlayerIndex index) {
     addresses.push_back(addresses[index]);
+    sendBroadcastTo.push_back(false);
 }
 
 void ConnectionComponent::restart() {
     addresses.resize(numberOfPlayers + 1);
+    sendBroadcastTo.resize(numberOfPlayers + 1);
 }
 
 void ConnectionComponent::sendBroadcast(const std::string &message) {
-    for (size_t i = 1; i < addresses.size(); i++)
-        connection.send(message, addresses[i]);
+    for (size_t i = 0; i < addresses.size(); i++)
+        if (sendBroadcastTo[i])
+            connection.send(message, addresses[i]);
 }
 
 

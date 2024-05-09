@@ -10,6 +10,7 @@ class ConnectionComponent : public Component {
 private:
     AbstractSendRec &connection;
     std::vector<PlayerAddress> addresses;
+    std::vector<bool> sendBroadcastTo;
     const unsigned int numberOfPlayers;
 public:
     explicit ConnectionComponent(unsigned int, AbstractSendRec &);

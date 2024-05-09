@@ -42,7 +42,8 @@ std::string PlayersConnection::sendRec(std::string message, PlayerAddress addres
 }
 
 void PlayersConnection::send(std::string message, PlayerAddress address) {
-    std::cout << "Send to " << address << '\n' << message << std::endl;
+    if (address != 0)
+        std::cout << "Send to " << address << '\n' << message << std::endl;
 }
 
 std::string PlayersConnection::getMessage(std::string) {

@@ -43,7 +43,7 @@ int main(int, char **) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
     PlayersConnection connection{};
-    PlayerIndex numberOfPlayers = 4;
+    PlayerIndex numberOfPlayers = 1;
 
 
     ComponentProvider componentProvider{};

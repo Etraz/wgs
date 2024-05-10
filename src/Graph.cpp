@@ -9,7 +9,7 @@ Graph::Graph(std::vector<std::vector<Edge>> &edges,
         currentVertex{startingVertex} {}
 
 void Graph::move() {
-    std::cout << "current vertex = " << currentVertex << std::endl;
+//    std::cout << "current vertex = " << currentVertex << std::endl;
     auto &neighbours = edges[currentVertex];
     std::vector<int> possible;
     for (int i = 0; i < neighbours.size(); ++i) {

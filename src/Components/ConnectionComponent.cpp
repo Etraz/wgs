@@ -11,7 +11,7 @@ ConnectionComponent::ConnectionComponent(const unsigned int numberOfPlayers,
 
     // to be removed
     for (size_t i = 0; i <= numberOfPlayers; i++)
-        addresses[i] = i;
+        addresses[i] = 0;
 }
 
 std::string ConnectionComponent::sendRec(std::string message, PlayerIndex index) {

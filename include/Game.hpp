@@ -5,10 +5,10 @@
 
 class Game {
 private:
-    ComponentProvider &componentProvider;
-    Graph &graph;
+    std::shared_ptr<ComponentProvider> componentProvider;
+    std::unique_ptr<Graph> graph;
 public:
-    Game(ComponentProvider &, Graph &);
+    Game(std::shared_ptr<ComponentProvider>, std::unique_ptr<Graph> &&);
 
     void start();
 };

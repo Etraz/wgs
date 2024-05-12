@@ -15,10 +15,10 @@ private:
 
     ConnectionComponent &getConnectionComponent();
 
-    ComponentProvider &componentProvider;
+    std::shared_ptr<ComponentProvider> componentProvider;
     unsigned int numberOfPlayers;
 public:
-    HandsComponent(ComponentProvider &, unsigned int);
+    HandsComponent(std::shared_ptr<ComponentProvider>, unsigned int);
 
     [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> &getHand(PlayerIndex) const;
 

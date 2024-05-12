@@ -16,7 +16,7 @@ bool LocalConnectionManager::send(std::string s, int i) {
 }
 
 void LocalConnectionManager::addUser(int fd) {
-    fds[last]=fd;
+    fds[last] = fd;
     last++;
 }
 
@@ -38,13 +38,13 @@ int LocalConnectionManager::sendToAll(std::string s) {
 
 LocalConnectionManager::LocalConnectionManager() {
     this->fds = {};
-    this->last=1;
+    this->last = 1;
 }
 
 std::vector<int> LocalConnectionManager::getKeys() {
     std::vector<int> key;
     key.reserve(fds.size());
-for(auto & fd : fds) {
+    for (auto &fd: fds) {
         key.push_back(fd.first);
     }
     return key;

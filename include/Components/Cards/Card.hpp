@@ -6,11 +6,11 @@ class Card {
 protected:
     bool shown{true};
 public:
-    virtual std::string serialize() const = 0;
+    [[nodiscard]] virtual std::string serialize() const = 0;
 
     virtual ~Card() = default;
 
     void setShown(bool);
 
-    bool isShown() const;
+    [[nodiscard]] bool isShown() const;
 };

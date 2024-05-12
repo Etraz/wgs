@@ -5,14 +5,14 @@
 
 class Graph {
 private:
-    std::vector<std::vector<Edge>> &edges;
-    ComponentProvider &componentProvider;
+    std::unique_ptr<std::vector<std::vector<Edge>>> edges;
+    std::shared_ptr<ComponentProvider> componentProvider;
     int currentVertex;
 
     int askPlayerForMove(const std::string &);
 
 public:
-    Graph(std::vector<std::vector<Edge>> &, ComponentProvider &, int);
+    Graph(std::unique_ptr<std::vector<std::vector<Edge>>> &&, std::shared_ptr<ComponentProvider>, int);
 
     void move();
 };

@@ -31,12 +31,12 @@ private:
 public:
     PlayingCard(int, PlayingCardColor);
 
-    int getNumber() const;
+    [[nodiscard]] [[nodiscard]] int getNumber() const;
 
-    PlayingCardColor getColor() const;
+    [[nodiscard]] [[nodiscard]] PlayingCardColor getColor() const;
 
 
-    std::string serialize() const override;
+    [[nodiscard]] [[nodiscard]] std::string serialize() const override;
 
 
     friend void swap(PlayingCard &A, PlayingCard &B) {

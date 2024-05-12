@@ -1,5 +1,4 @@
 #include "../../../include/Edges/Conditions/BlackjackAtLeastXCondition.hpp"
-#include "vector"
 
 BlackjackAtLeastXCondition::BlackjackAtLeastXCondition(int x) : x{x} {}
 

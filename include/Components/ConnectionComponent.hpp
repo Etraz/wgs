@@ -3,17 +3,18 @@
 #include "../AbstractSendRec.hpp"
 #include "Component.hpp"
 #include <vector>
+#include <memory>
 
 class ComponentProvider;
 
 class ConnectionComponent : public Component {
 private:
-    AbstractSendRec &connection;
+    std::unique_ptr<AbstractSendRec> connection;
     std::vector<PlayerAddress> addresses;
     std::vector<bool> sendBroadcastTo;
     const unsigned int numberOfPlayers;
 public:
-    explicit ConnectionComponent(unsigned int, AbstractSendRec &);
+    explicit ConnectionComponent(unsigned int, std::unique_ptr<AbstractSendRec> &&, std::vector<PlayerAddress> &&);
 
     std::string sendRec(std::string, PlayerIndex);
 

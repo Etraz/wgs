@@ -1,7 +1,7 @@
-#include "../include/PlayersConnection.hpp"
+#include "../include/LocalSendRec.hpp"
 #include <iostream>
 
-std::string PlayersConnection::askForBet(int owned) {
+std::string LocalSendRec::askForBet(int owned) {
     int bet{};
     while (true) {
         std::cout << "PLEASE PLACE THE BET. YOU OWN " << owned << "\nYOUR MOVE: ";
@@ -14,7 +14,7 @@ std::string PlayersConnection::askForBet(int owned) {
 }
 
 // message = "AskMove:{numberOfMoves};{Message to print}
-std::string PlayersConnection::askForMove(const std::string &message) {
+std::string LocalSendRec::askForMove(const std::string &message) {
     size_t startOfMessageToPrint = message.find(';');
     int numberOfMoves = std::stoi(
             message.substr(8, startOfMessageToPrint - 8)), move{};
@@ -29,7 +29,7 @@ std::string PlayersConnection::askForMove(const std::string &message) {
     return "AskMoveResp:" + std::to_string(move);
 }
 
-std::string PlayersConnection::sendRec(std::string message, PlayerAddress address) {
+std::string LocalSendRec::sendRec(std::string message, PlayerAddress address) {
     std::string response;
     std::cout << "SendRec to " << address << std::endl;
     if (message.starts_with("AskBet:"))
@@ -41,11 +41,7 @@ std::string PlayersConnection::sendRec(std::string message, PlayerAddress addres
     return response;
 }
 
-void PlayersConnection::send(std::string message, PlayerAddress address) {
+void LocalSendRec::send(std::string message, PlayerAddress address) {
     if (address != 0)
         std::cout << "Send to " << address << '\n' << message << std::endl;
-}
-
-std::string PlayersConnection::getMessage(std::string) {
-    return {};
 }

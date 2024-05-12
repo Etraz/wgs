@@ -63,7 +63,7 @@ std::string toString(const PlayingCard &card) {
 }
 
 std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand) {
-    std::string message = "";
+    std::string message;
     for (const auto &cardHolder: hand) {
         auto &card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
         message += toString(card);

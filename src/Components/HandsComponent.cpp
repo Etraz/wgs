@@ -1,4 +1,6 @@
 #include "../../include/Components/HandsComponent.hpp"
+
+#include <utility>
 #include "../../include/Components/ComponentProvider.hpp"
 
 const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getHand(PlayerIndex index) const {
@@ -24,15 +26,15 @@ void HandsComponent::showPlayersCards(PlayerIndex index) {
     }
 }
 
-HandsComponent::HandsComponent(ComponentProvider &componentProvider,
+HandsComponent::HandsComponent(std::shared_ptr<ComponentProvider> componentProvider,
                                unsigned int numberOfPlayers) :
-        componentProvider{componentProvider},
+        componentProvider{std::move(componentProvider)},
         numberOfPlayers{numberOfPlayers} {
     hands.resize(numberOfPlayers + 1);
 }
 
 ConnectionComponent &HandsComponent::getConnectionComponent() {
-    return dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
+    return dynamic_cast<ConnectionComponent &>(componentProvider->getComponent("ConnectionComponent"));
 }
 
 void HandsComponent::restart() {
@@ -49,7 +51,7 @@ void HandsComponent::restart() {
 }
 
 void HandsComponent::splitHand(PlayerIndex index) {
-    auto &deck = dynamic_cast<DeckComponent &>(componentProvider.getComponent("DeckComponent"));
+    auto &deck = dynamic_cast<DeckComponent &>(componentProvider->getComponent("DeckComponent"));
     PlayerIndex newHand = hands.size();
     hands.resize(newHand + 1);
     std::unique_ptr<CardHolder> cardHolder{std::move(hands[index][1])};

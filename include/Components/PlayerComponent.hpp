@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.hpp"
+#include <memory>
 #include <queue>
 
 class ComponentProvider;
@@ -10,10 +11,10 @@ private:
     //TODO change to boost::circular_buffer
     std::deque<PlayerIndex> players;
     PlayerIndex maxPlayerIndex{};
-    ComponentProvider &componentProvider;
+    std::shared_ptr<ComponentProvider> componentProvider;
     unsigned int numberOfPlayers;
 public:
-    PlayerComponent(ComponentProvider &, unsigned int);
+    PlayerComponent(std::shared_ptr<ComponentProvider>, unsigned int);
 
     PlayerIndex getCurrentPlayer();
 

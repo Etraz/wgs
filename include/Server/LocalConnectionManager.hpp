@@ -21,12 +21,12 @@
 using PlayerAddress = int;
 
 
-
 class LocalConnectionManager {
 
 public:
     std::map<int, int> fds;
     int last = 1;
+
     LocalConnectionManager();
 
     void addUser(int fd);

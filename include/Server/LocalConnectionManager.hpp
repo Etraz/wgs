@@ -15,21 +15,29 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <vector>
+#include <map>
+
+
+using PlayerAddress = int;
+
+
 
 class LocalConnectionManager {
 
 public:
-    std::vector<int> fds;
-
+    std::map<int, int> fds;
+    int last = 1;
     LocalConnectionManager();
 
     void addUser(int fd);
 
-    bool send(std::string s, int i = 0);
+    std::vector<PlayerAddress> getKeys();
+
+    bool send(std::string s, PlayerAddress i = 0);
 
     int sendToAll(std::string s);
 
-    std::string receiveFromUser(int i);
+    std::string receiveFromUser(PlayerAddress i);
 };
 
 #endif //WGS_LOCALCONNECTIONMANAGER_HPP

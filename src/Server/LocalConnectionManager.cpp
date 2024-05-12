@@ -9,20 +9,21 @@
 
 
 bool LocalConnectionManager::send(std::string s, int i) {
-    if (::send(fds.at(i), s.c_str(), s.size(), 0) == -1) {
+    if (::send(fds[i], s.c_str(), s.size(), 0) == -1) {
         return false;
     }
     return true;
 }
 
 void LocalConnectionManager::addUser(int fd) {
-    fds.emplace_back(fd);
+    fds[last]=fd;
+    last++;
 }
 
 std::string LocalConnectionManager::receiveFromUser(int i) {
 
     char buf[2048];
-    int r = recv(fds.at(i), buf, sizeof(buf), 0);
+    int r = recv(fds[i], buf, sizeof(buf), 0);
     std::string s = buf;
     s.resize(r);
     return s;
@@ -30,11 +31,19 @@ std::string LocalConnectionManager::receiveFromUser(int i) {
 
 int LocalConnectionManager::sendToAll(std::string s) {
     for (auto i: fds) {
-        ::send(i, s.c_str(), s.size(), 0);
+        ::send(i.second, s.c_str(), s.size(), 0);
     }
     return 0;
 }
 
 LocalConnectionManager::LocalConnectionManager() {
     this->fds = {};
+}
+
+std::vector<int> LocalConnectionManager::getKeys() {
+    std::vector<int> key;
+    for(auto & fd : fds) {
+        key.push_back(fd.first);
+    }
+    return key;
 }

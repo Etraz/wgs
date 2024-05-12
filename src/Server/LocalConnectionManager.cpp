@@ -38,11 +38,13 @@ int LocalConnectionManager::sendToAll(std::string s) {
 
 LocalConnectionManager::LocalConnectionManager() {
     this->fds = {};
+    this->last=1;
 }
 
 std::vector<int> LocalConnectionManager::getKeys() {
     std::vector<int> key;
-    for(auto & fd : fds) {
+    key.reserve(fds.size());
+for(auto & fd : fds) {
         key.push_back(fd.first);
     }
     return key;

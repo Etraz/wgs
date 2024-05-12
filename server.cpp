@@ -16,15 +16,18 @@ int main(int, char **) {
 
 
 
-    ConcreteSendRec connection{cm.getTable(0)};
+    std::unique_ptr<ConcreteSendRec> sendRec = std::make_unique<ConcreteSendRec>(ConcreteSendRec{cm.getTable(0)});
     PlayerIndex numberOfPlayers = 1;
     for (int i = 0; i < numberOfPlayers; i++) {
         cm.addUserToTemporary(0);
         std::cout << "User added " << i << "\n";
     }
 
-//    Game blackjack = BlackjackFactory::make(sendRec, playerAddresses);
-//    blackjack.start();
+    std::vector<PlayerAddress> addresses{};
+    addresses.push_back(1);
+
+    Game blackjack = BlackjackFactory::make(std::move(sendRec), addresses);
+    blackjack.start();
 
     cm.close();
 }

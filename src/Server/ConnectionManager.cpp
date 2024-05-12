@@ -83,7 +83,7 @@ void ConnectionManager::addUserTo(int index, int tbl) {
     tables.at(tbl).addUser(fds.at(index));
 }
 
-LocalConnectionManager &ConnectionManager::getTable(int index) {
+LocalConnectionManager & ConnectionManager::getTable(int index) {
     return tables.at(index);
 }
 

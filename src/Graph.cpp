@@ -39,5 +39,5 @@ int Graph::askPlayerForMove(const std::string &message) {
     auto &players = dynamic_cast<PlayerComponent &>(componentProvider->getComponent("PlayersComponent"));
     auto response = connection.sendRec(message, players.getCurrentPlayer());
 
-    return std::stoi(response.substr(response.find(':') + 1)) - 1;
+    return std::stoi(response.substr(response.find(':') + 1));
 }

@@ -150,7 +150,7 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     edges->at(7).push_back(Edge{"", playerWonAction, playerBetAndDidntBust, 6});
     edges->at(7).push_back(Edge{"", goToNextPlayerAction, playerDidntBetOrBust, 6});
     edges->at(8).push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 9});
-    edges->at(8).push_back(Edge{"", emptyAction, dealerIsCurrentPlayerCondition, 11});
+    edges->at(8).push_back(Edge{"", goToNextPlayerAction, dealerIsCurrentPlayerCondition, 11});
     edges->at(9).push_back(Edge{"", goToNextPlayerAction, playerDidntBetOrBust, 8});
     edges->at(9).push_back(Edge{"", emptyAction, playerBetAndDidntBust, 10});
     edges->at(10).push_back(Edge{"", playerWonAction, playerHasMoreThanDealerCondition, 8});

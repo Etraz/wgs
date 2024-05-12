@@ -102,6 +102,7 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     auto playerLostAction = std::make_shared<MultiAction>(MultiAction({sendPlayerLostInfo,
                                                                        goToNextPlayerAction}));
     auto returnPlayerBetAction = std::make_shared<ReturnPlayerBetAction>(ReturnPlayerBetAction{});
+    auto sendPlayerTiedInfo = std::make_shared<SendMessageAction>(SendMessageAction{"YOU TIED"});
     auto playerTiedAction = std::make_shared<MultiAction>(MultiAction({returnPlayerBetAction,
                                                                        goToNextPlayerAction}));
     auto endGameAction = std::make_shared<EndGameAction>(EndGameAction{});
@@ -146,7 +147,7 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     edges->at(5).push_back(Edge{"", goToNextPlayerAction, playerBustedCondition, 6});
     edges->at(5).push_back(Edge{"", goToNextPlayerAction, playerDidntBustedCondition, 8});
     edges->at(6).push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 7});
-    edges->at(6).push_back(Edge{"", emptyAction, dealerIsCurrentPlayerCondition, 11});
+    edges->at(6).push_back(Edge{"", goToNextPlayerAction, dealerIsCurrentPlayerCondition, 11});
     edges->at(7).push_back(Edge{"", playerWonAction, playerBetAndDidntBust, 6});
     edges->at(7).push_back(Edge{"", goToNextPlayerAction, playerDidntBetOrBust, 6});
     edges->at(8).push_back(Edge{"", emptyAction, playerIsCurrentPlayerCondition, 9});

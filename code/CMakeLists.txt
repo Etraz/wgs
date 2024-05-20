@@ -1,0 +1,8 @@
+add_subdirectory(actions)
+add_subdirectory(components)
+add_subdirectory(conditions)
+add_subdirectory(connection)
+add_subdirectory(edges)
+add_subdirectory(factories)
+add_subdirectory(game)
+#add_subdirectory(server)

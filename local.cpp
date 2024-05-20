@@ -1,5 +1,5 @@
-#include "include/BlackjackFactory.hpp"
-#include "include/LocalSendRec.hpp"
+#include "code/factories/include/factories/BlackjackFactory.hpp"
+#include "code/connection/include/connection/LocalSendRec.hpp"
 
 int main(int, char **) {
     std::vector<PlayerAddress> addresses{};

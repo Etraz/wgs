@@ -1,9 +1,9 @@
 #include <iostream>
-#include "include/Server/ConnectionManager.hpp"
-#include "common/include/ConcreteSendRec.hpp"
-#include "include/Components/HandsComponent.hpp"
+#include "server/ConnectionManager.hpp"
+#include "connection/ConcreteSendRec.hpp"
+#include "components/HandsComponent.hpp"
 
-#include "factories/include/BlackjackFactory.hpp"
+#include "factories/BlackjackFactory.hpp"
 
 int main(int, char **) {
 

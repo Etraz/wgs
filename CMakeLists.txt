@@ -10,5 +10,14 @@ target_link_libraries(local
         wgs_edges
         wgs_factories
         wgs_game
-        #wgs_server
+        )
+
+add_executable(online ${HEADERS} online.cpp)
+target_link_libraries(online
+        wgs_components
+        wgs_connection
+        wgs_edges
+        wgs_factories
+        wgs_game
+        wgs_server
         )

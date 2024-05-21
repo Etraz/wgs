@@ -1,4 +1,4 @@
-#include "actions/blackjack/RestartAction.hpp"
+#include "actions/common/RestartAction.hpp"
 
 void RestartAction::run(ComponentProvider &componentProvider) {
     auto &hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));

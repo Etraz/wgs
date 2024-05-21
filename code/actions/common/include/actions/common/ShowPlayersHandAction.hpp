@@ -2,6 +2,6 @@
 
 #include "edges/Action.hpp"
 
-class ShowDealersCardsAction : public Action {
+class ShowPlayersHandAction : public Action {
     void run(ComponentProvider &) override;
 };

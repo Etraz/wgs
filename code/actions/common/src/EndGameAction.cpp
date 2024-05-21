@@ -1,4 +1,4 @@
-#include "actions/blackjack/EndGameAction.hpp"
+#include "actions/common/EndGameAction.hpp"
 
 void EndGameAction::run(ComponentProvider &componentProvider) {
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));

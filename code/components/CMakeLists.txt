@@ -7,7 +7,6 @@ set(SOURCES
         src/ConnectionComponent.cpp
         src/HandsComponent.cpp
         src/PlayerComponent.cpp
-        src/cards/Card.cpp
         src/cards/CardDeck.cpp
         src/cards/CardHolder.cpp
         src/cards/PlayingCard.cpp

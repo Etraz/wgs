@@ -1,4 +1,4 @@
-#include "actions/blackjack/SendMessageAction.hpp"
+#include "actions/common/SendMessageAction.hpp"
 
 #include <utility>
 

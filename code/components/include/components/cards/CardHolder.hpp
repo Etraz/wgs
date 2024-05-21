@@ -15,9 +15,9 @@ public:
 
     void returnCard();
 
-    const Card &getCard() const;
+    [[nodiscard]] const Card &getCard() const;
 
-    size_t getIndex() const;
+    [[nodiscard]] size_t getIndex() const;
 
     friend void swap(CardHolder &A, CardHolder &B) {
         using std::swap;
@@ -25,6 +25,4 @@ public:
         swap(A.index, B.index);
         swap(A.card, B.card);
     }
-
-    void reverseCard();
 };

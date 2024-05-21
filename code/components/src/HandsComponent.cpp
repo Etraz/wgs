@@ -7,7 +7,16 @@ const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getHand(PlayerIn
     return hands[index];
 }
 
-void HandsComponent::addCardToPlayer(PlayerIndex index, std::unique_ptr<CardHolder> cardHolder) {
+void HandsComponent::addSecretCardToPlayer(PlayerIndex index, std::unique_ptr<CardHolder> cardHolder) {
+    std::string message = "ActionDrawCard:" + to_string(index) + ';' + std::to_string(cardHolder->getIndex()) + ';' +
+                          cardHolder->getCard().serializeReverse();
+    getConnectionComponent().sendBroadcast(message);
+    message = "ActionChangeCard:" + std::to_string(cardHolder->getIndex()) + ';' + cardHolder->getCard().serialize();
+    getConnectionComponent().send(message, index);
+    hands[index].push_back(std::move(cardHolder));
+}
+
+void HandsComponent::addOpenCardToPlayer(PlayerIndex index, std::unique_ptr<CardHolder> cardHolder) {
     std::string message = "ActionDrawCard:" + to_string(index) + ';' + std::to_string(cardHolder->getIndex()) + ';' +
                           cardHolder->getCard().serialize();
     getConnectionComponent().sendBroadcast(message);
@@ -17,12 +26,9 @@ void HandsComponent::addCardToPlayer(PlayerIndex index, std::unique_ptr<CardHold
 void HandsComponent::showPlayersCards(PlayerIndex index) {
     for (auto &cardHolder: hands[index]) {
         auto &card = dynamic_cast<const PlayingCard &>(cardHolder->getCard());
-        if (!card.isShown()) {
-            cardHolder->reverseCard();
-            std::string message = "ActionChangeCard:" + std::to_string(cardHolder->getIndex()) + ';' +
-                                  cardHolder->getCard().serialize();
-            getConnectionComponent().sendBroadcast(message);
-        }
+        std::string message = "ActionChangeCard:" + std::to_string(cardHolder->getIndex()) + ';' +
+                              cardHolder->getCard().serialize();
+        getConnectionComponent().sendBroadcast(message);
     }
 }
 
@@ -57,7 +63,7 @@ void HandsComponent::splitHand(PlayerIndex index) {
     std::unique_ptr<CardHolder> cardHolder{std::move(hands[index][1])};
     hands[index].resize(1);
     getConnectionComponent().sendBroadcast("ActionRemoveCard:" + std::to_string(cardHolder->getIndex()));
-    addCardToPlayer(newHand, std::move(cardHolder));
-    addCardToPlayer(index, std::move(deck.getCard()));
-    addCardToPlayer(newHand, std::move(deck.getCard()));
+    addOpenCardToPlayer(newHand, std::move(cardHolder));
+    addOpenCardToPlayer(index, std::move(deck.getCard()));
+    addOpenCardToPlayer(newHand, std::move(deck.getCard()));
 }

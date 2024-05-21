@@ -21,9 +21,3 @@ CardHolder::CardHolder(CardDeck *deck,
         card{std::move(card)} {
 
 }
-
-void CardHolder::reverseCard() {
-    card->setShown(!card->isShown());
-}
-
-

@@ -22,7 +22,8 @@ public:
 
     [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> &getHand(PlayerIndex) const;
 
-    void addCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
+    void addSecretCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
+    void addOpenCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
 
     //TODO this but single card (why??)
     void showPlayersCards(PlayerIndex);

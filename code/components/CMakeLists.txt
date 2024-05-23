@@ -10,7 +10,8 @@ set(SOURCES
         src/cards/CardDeck.cpp
         src/cards/CardHolder.cpp
         src/cards/PlayingCard.cpp
-        )
+        src/BridgeAuctionComponent.cpp
+        src/cards/BridgeCall.cpp)
 
 
 set(HEADERS
@@ -24,7 +25,8 @@ set(HEADERS
         include/${MODULE_NAME}/cards/CardDeck.hpp
         include/${MODULE_NAME}/cards/CardHolder.hpp
         include/${MODULE_NAME}/cards/PlayingCard.hpp
-        )
+        include/${MODULE_NAME}/BridgeAuctionComponent.hpp
+        include/${MODULE_NAME}/cards/BridgeCall.hpp)
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
 add_library(wgs_${MODULE_NAME} ALIAS ${MODULE_NAME})

@@ -5,6 +5,7 @@
 #include "ConnectionComponent.hpp"
 #include "HandsComponent.hpp"
 #include "PlayerComponent.hpp"
+#include "BridgeAuctionComponent.hpp"
 #include <map>
 
 class ComponentProvider {

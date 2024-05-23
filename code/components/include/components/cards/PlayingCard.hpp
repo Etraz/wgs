@@ -6,7 +6,7 @@
 #include "CardHolder.hpp"
 
 enum PlayingCardColor {
-    spades = 1, hearts = 2, diamonds = 4, clubs = 8
+    clubs = 0,  diamonds = 1, hearts = 2, spades = 4, noTrump = 8
 };
 
 inline const char *ToString(PlayingCardColor c) {
@@ -19,6 +19,8 @@ inline const char *ToString(PlayingCardColor c) {
             return "diamonds";
         case clubs:
             return "clubs";
+        case noTrump:
+            return "noTrump";
         default:
             return "[Unknown color]";
     }

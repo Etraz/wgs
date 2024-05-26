@@ -40,3 +40,7 @@ void BridgeTricksComponent::goToNextTrick() {
 PlayingCardColor BridgeTricksComponent::getContractsColor() const {
     return contract.getSuite();
 }
+
+PlayerIndex BridgeTricksComponent::getDeclaringPlayer() const {
+    return declaringPlayer;
+}

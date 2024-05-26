@@ -14,7 +14,7 @@
 #include "actions/blackjack/BlackjackRestartAction.hpp"
 #include "actions/blackjack/ReturnPlayerBetAction.hpp"
 #include "conditions/common/AlwaysTrueCondition.hpp"
-#include "conditions/blackjack/HandSizeUnderXCondition.hpp"
+#include "conditions/common/HandSizeUnderXCondition.hpp"
 #include "conditions/blackjack/PlayerCanDoubleBetCondition.hpp"
 #include "conditions/common/AndCondition.hpp"
 #include "conditions/blackjack/HandScoreAtLeastXCondition.hpp"

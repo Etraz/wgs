@@ -19,5 +19,7 @@ public:
     [[nodiscard]] PlayerIndex getTrickStartingPlayer() const;
     [[nodiscard]] bool isContractFulfiled() const;
     [[nodiscard]] PlayingCardColor getContractsColor() const;
+
+    PlayerIndex getDeclaringPlayer() const;
 };
 

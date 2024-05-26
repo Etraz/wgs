@@ -2,7 +2,7 @@
 
 #include "edges/Condition.hpp"
 
-class CurrentTricksFullIsCondition : public Condition{
+class CurrentTrickIsFullCondition : public Condition{
 public:
     bool check(ComponentProvider &) override;
 };

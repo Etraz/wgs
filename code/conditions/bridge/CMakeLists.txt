@@ -3,13 +3,13 @@ set(MODULE_NAME ${PARENT_MODULE_NAME}_${CHILDREN_MODULE_NAME})
 
 set(SOURCES
         src/AuctionToContinueCondition.cpp
-        src/CurrentTricksIsFullCondition.cpp
+        src/CurrentTrickIsFullCondition.cpp
         )
 
 
 set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/AuctionToContinueCondition.hpp
-        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/CurrentTricksIsFullCondition.hpp)
+        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/CurrentTrickIsFullCondition.hpp)
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
 add_library(wgs_${PARENT_MODULE_NAME}_${CHILDREN_MODULE_NAME} ALIAS ${MODULE_NAME})

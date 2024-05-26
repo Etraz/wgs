@@ -3,9 +3,6 @@
 #include <utility>
 #include "components/ComponentProvider.hpp"
 
-const std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getHand(PlayerIndex index) const {
-    return hands[index];
-}
 
 void HandsComponent::addSecretCardToPlayer(PlayerIndex index, std::unique_ptr<CardHolder> cardHolder) {
     std::string message = "ActionDrawCard:" + to_string(index) + ';' + std::to_string(cardHolder->getIndex()) + ';' +
@@ -45,11 +42,7 @@ ConnectionComponent &HandsComponent::getConnectionComponent() {
 
 void HandsComponent::restart() {
     for (size_t i = 0; i < hands.size(); i++) {
-        auto &hand = hands[i];
-        for (auto &card: hand)
-            card->returnCard();
-        hand.clear();
-        getConnectionComponent().sendBroadcast("ActionClearHand:" + std::to_string(i));
+        clearPlayersHand(i);
         if (i > numberOfPlayers)
             getConnectionComponent().sendBroadcast("ActionRemoveHand:" + std::to_string(i));
     }
@@ -66,4 +59,28 @@ void HandsComponent::splitHand(PlayerIndex index) {
     addOpenCardToPlayer(newHand, std::move(cardHolder));
     addOpenCardToPlayer(index, std::move(deck.getCard()));
     addOpenCardToPlayer(newHand, std::move(deck.getCard()));
+}
+
+std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getHand(PlayerIndex index) {
+    return hands[index];
+}
+
+std::unique_ptr<CardHolder> HandsComponent::removeAndReturnGivenCardFromPlayer(PlayerIndex playerIndex, size_t cardIndex) {
+    std::unique_ptr<CardHolder> toReturn{nullptr};
+    for (auto ite = hands[playerIndex].begin(); ite != hands[playerIndex].end(); ite++){
+        if ((*ite)->getIndex() == cardIndex){
+            toReturn = std::unique_ptr<CardHolder>(std::move((*ite)));
+            hands[playerIndex].erase(ite);
+            return toReturn;
+        }
+    }
+    return toReturn;
+}
+
+void HandsComponent::clearPlayersHand(PlayerIndex playerIndex) {
+    auto &hand = hands[playerIndex];
+    for (auto &card: hand)
+        card->returnCard();
+    hand.clear();
+    getConnectionComponent().sendBroadcast("ActionClearHand:" + std::to_string(playerIndex));
 }

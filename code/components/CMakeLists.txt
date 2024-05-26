@@ -11,7 +11,7 @@ set(SOURCES
         src/cards/CardHolder.cpp
         src/cards/PlayingCard.cpp
         src/BridgeAuctionComponent.cpp
-        src/cards/BridgeCall.cpp)
+        src/cards/BridgeCall.cpp src/BridgeTricksComponent.cpp)
 
 
 set(HEADERS
@@ -26,7 +26,8 @@ set(HEADERS
         include/${MODULE_NAME}/cards/CardHolder.hpp
         include/${MODULE_NAME}/cards/PlayingCard.hpp
         include/${MODULE_NAME}/BridgeAuctionComponent.hpp
-        include/${MODULE_NAME}/cards/BridgeCall.hpp)
+        include/${MODULE_NAME}/cards/BridgeCall.hpp
+        include/${MODULE_NAME}/BridgeTricksComponent.hpp)
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
 add_library(wgs_${MODULE_NAME} ALIAS ${MODULE_NAME})

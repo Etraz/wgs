@@ -20,10 +20,12 @@ private:
 public:
     HandsComponent(std::shared_ptr<ComponentProvider>, unsigned int);
 
-    [[nodiscard]] const std::vector<std::unique_ptr<CardHolder>> &getHand(PlayerIndex) const;
+    std::vector<std::unique_ptr<CardHolder>> & getHand(PlayerIndex);
 
     void addSecretCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
     void addOpenCardToPlayer(PlayerIndex, std::unique_ptr<CardHolder>);
+    std::unique_ptr<CardHolder> removeAndReturnGivenCardFromPlayer(PlayerIndex, size_t);
+    void clearPlayersHand(PlayerIndex);
 
     //TODO this but single card (why??)
     void showPlayersCards(PlayerIndex);

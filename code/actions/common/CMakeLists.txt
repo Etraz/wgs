@@ -7,7 +7,6 @@ set(SOURCES
         src/GoToNextPlayerAction.cpp
         src/MultiAction.cpp
         src/PlayerDrawsCardAction.cpp
-        src/RestartAction.cpp
         src/SendMessageAction.cpp
         src/ShowPlayersHandAction.cpp
         )
@@ -19,7 +18,6 @@ set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/GoToNextPlayerAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/MultiAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/PlayerDrawsCardAction.hpp
-        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/RestartAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/SendMessageAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/ShowPlayersHandAction.hpp
         )

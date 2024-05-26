@@ -8,6 +8,7 @@ set(SOURCES
         src/PlayerSplitsAction.cpp
         src/ReturnHalfOfPlayerBetAction.cpp
         src/ReturnPlayerBetAction.cpp
+        src/BlackjackRestartAction.cpp
         )
 
 
@@ -18,6 +19,7 @@ set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/PlayerSplitsAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/ReturnHalfOfPlayerBetAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/ReturnPlayerBetAction.hpp
+        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/BlackjackRestartAction.hpp
         )
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})

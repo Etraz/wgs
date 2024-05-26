@@ -2,7 +2,7 @@
 
 #include "edges/Action.hpp"
 
-class RestartAction : public Action {
+class BlackjackRestartAction : public Action {
 public:
     void run(ComponentProvider &) override;
 };

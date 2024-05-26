@@ -15,7 +15,6 @@ void PlayerComponent::restart() {
     for (PlayerIndex i = 0; i <= numberOfPlayers; i++)
         players.push_back(i);
     maxPlayerIndex = numberOfPlayers;
-    nextPlayer();
 }
 
 void PlayerComponent::split() {

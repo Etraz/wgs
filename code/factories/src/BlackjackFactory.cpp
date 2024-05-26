@@ -11,7 +11,7 @@
 #include "actions/blackjack/DoubleAndReturnPlayersBetAction.hpp"
 #include "actions/common/EndGameAction.hpp"
 #include "actions/common/SendMessageAction.hpp"
-#include "actions/common/RestartAction.hpp"
+#include "actions/blackjack/BlackjackRestartAction.hpp"
 #include "actions/blackjack/ReturnPlayerBetAction.hpp"
 #include "conditions/common/AlwaysTrueCondition.hpp"
 #include "conditions/blackjack/HandSizeUnderXCondition.hpp"
@@ -102,7 +102,7 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     auto playerTiedAction = std::make_shared<MultiAction>(MultiAction({returnPlayerBetAction,
                                                                        goToNextPlayerAction}));
     auto endGameAction = std::make_shared<EndGameAction>(EndGameAction{});
-    auto restartAction = std::make_shared<RestartAction>(RestartAction{});
+    auto restartAction = std::make_shared<BlackjackRestartAction>(BlackjackRestartAction{});
 
     auto alwaysTrueCondition = std::make_shared<AlwaysTrueCondition>(AlwaysTrueCondition{});
     auto dealerIsCurrentPlayerCondition = std::make_shared<CurrentPlayerIsXCondition>(CurrentPlayerIsXCondition{0});

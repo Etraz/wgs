@@ -1,6 +1,6 @@
-#include "actions/common/RestartAction.hpp"
+#include "actions/blackjack/BlackjackRestartAction.hpp"
 
-void RestartAction::run(ComponentProvider &componentProvider) {
+void BlackjackRestartAction::run(ComponentProvider &componentProvider) {
     auto &hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
     auto &players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
@@ -12,4 +12,6 @@ void RestartAction::run(ComponentProvider &componentProvider) {
     connection.restart();
     chips.restart();
     deck.restart();
+
+    players.nextPlayer();
 }

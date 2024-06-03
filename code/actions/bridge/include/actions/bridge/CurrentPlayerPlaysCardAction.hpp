@@ -2,7 +2,7 @@
 
 #include "edges/Action.hpp"
 
-class CurrentPlayerPlaysCardAction : public Action{
+class CurrentPlayerPlaysCardAction : public Action {
 public:
     void run(ComponentProvider &) override;
 };

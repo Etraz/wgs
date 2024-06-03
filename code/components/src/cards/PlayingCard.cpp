@@ -28,6 +28,8 @@ std::string PlayingCard::serialize() const {
         case clubs:
             toReturn += std::to_string(number + 38);
             break;
+        case noTrump:
+            throw std::runtime_error("wrong suite");
     }
     return toReturn;
 }

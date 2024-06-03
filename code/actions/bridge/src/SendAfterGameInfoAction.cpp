@@ -7,7 +7,7 @@ void SendAfterGameInfoAction::run(ComponentProvider &componentProvider) {
     bool contractWon = tricks.isContractFulfiled();
     PlayerIndex declaringPlayer = tricks.getDeclaringPlayer();
 
-    for (PlayerIndex playerIndex = 0; playerIndex < 4; playerIndex++){
+    for (PlayerIndex playerIndex = 0; playerIndex < 4; playerIndex++) {
         // This is kinda stupid but it should work
         if (contractWon == ((declaringPlayer % 2) == (playerIndex % 2)))
             connection.send("YOU WON", playerIndex);

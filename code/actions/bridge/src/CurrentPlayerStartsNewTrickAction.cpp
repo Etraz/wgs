@@ -7,19 +7,19 @@ void CurrentPlayerStartsNewTrickAction::run(ComponentProvider &componentProvider
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
 
     PlayerIndex currentPlayer = players.getCurrentPlayer();
-    auto & hand = hands.getHand(currentPlayer);
+    auto &hand = hands.getHand(currentPlayer);
 
 
     std::vector<size_t> indexesToSend;
 
-    for (auto & cardHolder : hand){
+    for (auto &cardHolder: hand) {
         indexesToSend.push_back(cardHolder->getIndex());
     }
 
     std::string message, response;
     message = "AskCardToPlay:" + std::to_string(indexesToSend.size());
 
-    for (auto index : indexesToSend){
+    for (auto index: indexesToSend) {
         message += ';';
         message += std::to_string(index);
     }

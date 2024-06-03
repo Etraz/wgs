@@ -3,7 +3,7 @@
 bool BridgeAuctionComponent::isAuctionToContinue() const {
     if (calls.size() < 4)
         return true;
-    for (auto i = calls.size()-3; i < calls.size(); i++)
+    for (auto i = calls.size() - 3; i < calls.size(); i++)
         if (calls[i].second.getType() != passCall)
             return true;
     return false;
@@ -23,8 +23,8 @@ void BridgeAuctionComponent::restart() {
 }
 
 std::pair<PlayerIndex, BridgeCall> BridgeAuctionComponent::getLastNormalCall() const {
-    for (auto ite = calls.rbegin(); ite != calls.rend(); ite++)
-        if(ite->second.getType() == normalCall)
+    for (auto ite = calls.rbegin(); ite != calls.rend(); ite++) // NOLINT(modernize-loop-convert)
+        if (ite->second.getType() == normalCall)
             return *ite;
     return std::make_pair(PlayerIndex{9}, BridgeCall{0, noTrump, normalCall});
 }

@@ -34,7 +34,7 @@ bool ConnectionManager::startup(int port) {
     this->serverAddr.sin_family = AF_INET;
     this->serverAddr.sin_port = htons(port);
     this->serverAddr.sin_addr.s_addr = INADDR_ANY;
-    if (bind(serverSocket, (sockaddr * ) & serverAddr, sizeof(serverAddr)) == -1) {
+    if (bind(serverSocket, (sockaddr *) &serverAddr, sizeof(serverAddr)) == -1) {
         std::cerr << "Error binding socket\n";
         ::close(serverSocket);
         return false;
@@ -66,7 +66,7 @@ void ConnectionManager::loopAdd() {
     while (!stoppage) {
         sockaddr_in clientAddr{};
         socklen_t clientAddrSize = sizeof(clientAddr);
-        int clientSocket = accept(serverSocket, (sockaddr * ) & clientAddr, &clientAddrSize);
+        int clientSocket = accept(serverSocket, (sockaddr *) &clientAddr, &clientAddrSize);
         if (clientSocket == -1) {
             std::cerr << "Error accepting connection\n";
             continue;
@@ -83,7 +83,7 @@ void ConnectionManager::addUserTo(int index, int tbl) {
     tables.at(tbl).addUser(fds.at(index));
 }
 
-LocalConnectionManager & ConnectionManager::getTable(int index) {
+LocalConnectionManager &ConnectionManager::getTable(int index) {
     return tables.at(index);
 }
 
@@ -92,7 +92,7 @@ void ConnectionManager::addUserToTemporary(int tbl) {
     while (clientSocket == -1) {
         sockaddr_in clientAddr{};
         socklen_t clientAddrSize = sizeof(clientAddr);
-        clientSocket = accept(serverSocket, (sockaddr * ) & clientAddr, &clientAddrSize);
+        clientSocket = accept(serverSocket, (sockaddr *) &clientAddr, &clientAddrSize);
         if (clientSocket == -1) {
             std::cerr << "Error accepting connection\n";
         } else {

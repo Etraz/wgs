@@ -17,6 +17,6 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_connection
-            wgs_game
+        wgs_connection
+        wgs_game
         )

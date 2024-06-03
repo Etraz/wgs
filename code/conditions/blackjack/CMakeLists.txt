@@ -29,6 +29,6 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_edges
-            wgs_components
+        wgs_edges
+        wgs_components
         )

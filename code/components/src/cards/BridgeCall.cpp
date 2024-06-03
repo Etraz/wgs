@@ -3,9 +3,9 @@
 BridgeCall::BridgeCall(int number,
                        PlayingCardColor suite,
                        BridgeCallType type) :
-                       number{number},
-                       suite{suite},
-                       type{type} {}
+        number{number},
+        suite{suite},
+        type{type} {}
 
 // [number];[suite];[type]
 BridgeCall::BridgeCall(std::string s) {

@@ -9,11 +9,18 @@ void GetNextCallFromPlayerAction::run(ComponentProvider &componentProvider) {
     auto lastCallInfo = auction.getLastNormalCall();
     bool canDouble = auction.canNextBeDouble(), canReDouble = auction.canNextBeReDouble();
     std::string mess = "AskBridgeCall:" + std::to_string(lastCallInfo.second.getNumber()) + ';'
-            + ToString(lastCallInfo.second.getSuite()) + ';'
-            + std::to_string(lastCallInfo.first) + ';'
-            + (canDouble ? '1' : '0') + ';' + (canReDouble ? '1' : '0');
+                       + ToString(lastCallInfo.second.getSuite()) + ';'
+                       + std::to_string(lastCallInfo.first) + ';'
+                       + (canDouble ? '1' : '0') + ';' + (canReDouble ? '1' : '0');
 
     // AskBridgeCallResp:[nextCallNumber];[nextCallSuite];[nextCallType]
     std::string resp = connection.sendRec(mess, players.getCurrentPlayer());
-    auction.addNextCall(players.getCurrentPlayer(), BridgeCall(resp.substr(resp.find(':') + 1)));
+    BridgeCall nextCall = BridgeCall(resp.substr(resp.find(':') + 1));
+    auction.addNextCall(players.getCurrentPlayer(), nextCall);
+
+    mess = "ActionBridgeCall:" + std::to_string(nextCall.getNumber()) + ';'
+           + ToString(nextCall.getSuite()) + ';'
+           + std::to_string(players.getCurrentPlayer());
+
+    connection.sendBroadcast(mess);
 }

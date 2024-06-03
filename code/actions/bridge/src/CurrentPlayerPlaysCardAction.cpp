@@ -7,29 +7,29 @@ void CurrentPlayerPlaysCardAction::run(ComponentProvider &componentProvider) {
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
 
     PlayerIndex currentPlayer = players.getCurrentPlayer();
-    auto & hand = hands.getHand(currentPlayer);
+    auto &hand = hands.getHand(currentPlayer);
 
     PlayingCardColor correctColor = dynamic_cast<const PlayingCard &>(
             hands.getHand(tricks.getTrickStartingPlayer() + 4).front()->getCard()
-            ).getColor();
+    ).getColor();
 
     std::vector<size_t> indexesToSend;
     bool hasCorrectColor = false;
 
-    for (auto & cardHolder : hand){
-        if (dynamic_cast<const PlayingCard &>(cardHolder->getCard()).getColor() == correctColor){
+    for (auto &cardHolder: hand) {
+        if (dynamic_cast<const PlayingCard &>(cardHolder->getCard()).getColor() == correctColor) {
             hasCorrectColor = true;
             indexesToSend.push_back(cardHolder->getIndex());
         }
     }
     if (!hasCorrectColor)
-        for (auto & cardHolder : hand)
+        for (auto &cardHolder: hand)
             indexesToSend.push_back(cardHolder->getIndex());
 
     std::string message, response;
     message = "AskCardToPlay:" + std::to_string(indexesToSend.size());
 
-    for (auto index : indexesToSend){
+    for (auto index: indexesToSend) {
         message += ';';
         message += std::to_string(index);
     }

@@ -65,10 +65,11 @@ std::vector<std::unique_ptr<CardHolder>> &HandsComponent::getHand(PlayerIndex in
     return hands[index];
 }
 
-std::unique_ptr<CardHolder> HandsComponent::removeAndReturnGivenCardFromPlayer(PlayerIndex playerIndex, size_t cardIndex) {
+std::unique_ptr<CardHolder>
+HandsComponent::removeAndReturnGivenCardFromPlayer(PlayerIndex playerIndex, size_t cardIndex) {
     std::unique_ptr<CardHolder> toReturn{nullptr};
-    for (auto ite = hands[playerIndex].begin(); ite != hands[playerIndex].end(); ite++){
-        if ((*ite)->getIndex() == cardIndex){
+    for (auto ite = hands[playerIndex].begin(); ite != hands[playerIndex].end(); ite++) {
+        if ((*ite)->getIndex() == cardIndex) {
             toReturn = std::unique_ptr<CardHolder>(std::move((*ite)));
             hands[playerIndex].erase(ite);
             return toReturn;

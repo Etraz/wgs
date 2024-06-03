@@ -3,7 +3,7 @@
 #include <memory>
 
 CardDeck::CardDeck(std::vector<std::unique_ptr<Card>> &&startingDeck,
-                             std::default_random_engine &engine) :
+                   std::default_random_engine &engine) :
         deck(std::move(startingDeck)),
         engine{engine} {
     std::shuffle(deck.begin(), deck.end(), engine);

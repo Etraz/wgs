@@ -56,11 +56,12 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     componentProvider->addComponent(std::make_unique<HandsComponent>(
             HandsComponent(componentProvider, numberOfPlayers)), "HandsComponent");
     componentProvider->addComponent(std::make_unique<ConnectionComponent>(
-            ConnectionComponent(numberOfPlayers,std::move(sendRec),std::move(orginalAddreses))),"ConnectionComponent");
+                                            ConnectionComponent(numberOfPlayers, std::move(sendRec), std::move(orginalAddreses))),
+                                    "ConnectionComponent");
     componentProvider->addComponent(std::make_unique<ChipsComponent>(
-            ChipsComponent(numberOfPlayers)),"ChipsComponent");
+            ChipsComponent(numberOfPlayers)), "ChipsComponent");
     componentProvider->addComponent(std::make_unique<CardDeck>(
-            CardDeck{std::move(deck), e}),"CardDeck");
+            CardDeck{std::move(deck), e}), "CardDeck");
     componentProvider->addComponent(std::make_unique<PlayerComponent>(
             PlayerComponent{componentProvider, numberOfPlayers}), "PlayersComponent");
 

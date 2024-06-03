@@ -7,6 +7,7 @@ private:
     static std::string askForBet(int);
 
     static std::string askForMove(const std::string &);
+
     static std::string askForCardToPlay(const std::string &);
 
 

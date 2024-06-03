@@ -48,9 +48,9 @@ void LocalSendRec::send(std::string message, PlayerAddress address) {
         std::cout << "Send to " << address << '\n' << message << std::endl;
 }
 
-std::string LocalSendRec::askForCardToPlay(const std::string & message) {
+std::string LocalSendRec::askForCardToPlay(const std::string &message) {
     size_t startOfMessageToPrint = message.find(';');
-    int  cardIndex{};
+    int cardIndex{};
     std::string toPrint = message.substr(startOfMessageToPrint + 1);
     while (true) {
         std::cout << toPrint << "\nPLEASE CHOOSE CARD TO PLAY.\nYOUR CARD: ";

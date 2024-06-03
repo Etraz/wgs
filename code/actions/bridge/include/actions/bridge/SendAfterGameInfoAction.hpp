@@ -2,7 +2,7 @@
 
 #include "edges/Action.hpp"
 
-class SendAfterGameInfoAction : public Action{
+class SendAfterGameInfoAction : public Action {
 public:
     void run(ComponentProvider &) override;
 };

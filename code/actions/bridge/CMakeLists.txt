@@ -8,7 +8,7 @@ set(SOURCES
         src/CurrentPlayerStartsNewTrickAction.cpp
         src/BridgeDealAction.cpp
         src/BridgeRestartAction.cpp
-        src/SendAfterGameInfoAction.cpp)
+        src/SendAfterGameInfoAction.cpp src/EndAuctionAction.cpp)
 
 
 set(HEADERS
@@ -18,7 +18,8 @@ set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/CurrentPlayerStartsNewTrickAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/BridgeDealAction.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/BridgeRestartAction.hpp
-        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/SendAfterGameInfoAction.hpp)
+        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/SendAfterGameInfoAction.hpp
+        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/EndAuctionAction.hpp)
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
 add_library(wgs_${PARENT_MODULE_NAME}_${CHILDREN_MODULE_NAME} ALIAS ${MODULE_NAME})

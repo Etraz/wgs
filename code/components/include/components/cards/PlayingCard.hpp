@@ -6,7 +6,7 @@
 #include "CardHolder.hpp"
 
 enum PlayingCardColor {
-    clubs = 0,  diamonds = 1, hearts = 2, spades = 4, noTrump = 8
+    clubs = 0, diamonds = 1, hearts = 2, spades = 4, noTrump = 8
 };
 
 inline const char *ToString(PlayingCardColor c) {
@@ -39,6 +39,7 @@ public:
 
 
     [[nodiscard]] std::string serialize() const override;
+
     [[nodiscard]] std::string serializeReverse() const override;
 
 

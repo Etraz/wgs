@@ -18,13 +18,13 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_edges
-            wgs_actions_blackjack
-            wgs_actions_common
-            wgs_actions_bridge
-            wgs_components
-            wgs_conditions_blackjack
-            wgs_conditions_common
-            wgs_conditions_bridge
-            wgs_connection
+        wgs_edges
+        wgs_actions_blackjack
+        wgs_actions_common
+        wgs_actions_bridge
+        wgs_components
+        wgs_conditions_blackjack
+        wgs_conditions_common
+        wgs_conditions_bridge
+        wgs_connection
         )

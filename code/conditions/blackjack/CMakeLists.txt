@@ -4,7 +4,6 @@ set(MODULE_NAME ${PARENT_MODULE_NAME}_${CHILDREN_MODULE_NAME})
 set(SOURCES
         src/CurrentPlayerIsXCondition.cpp
         src/HandScoreAtLeastXCondition.cpp
-        src/HandSizeUnderXCondition.cpp
         src/PlayerCanBetCondition.cpp
         src/PlayerCanDoubleBetCondition.cpp
         src/PlayerCanSplitCondition.cpp
@@ -16,7 +15,6 @@ set(SOURCES
 set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/CurrentPlayerIsXCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/HandScoreAtLeastXCondition.hpp
-        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/HandSizeUnderXCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/PlayerCanBetCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/PlayerCanDoubleBetCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/PlayerCanSplitCondition.hpp
@@ -31,6 +29,6 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_edges
-            wgs_components
+        wgs_edges
+        wgs_components
         )

@@ -6,6 +6,7 @@ set(SOURCES
         src/AndCondition.cpp
         src/NotCondition.cpp
         src/OrCondition.cpp
+        src/HandSizeUnderXCondition.cpp
         )
 
 
@@ -14,6 +15,7 @@ set(HEADERS
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/AndCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/NotCondition.hpp
         include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/OrCondition.hpp
+        include/${PARENT_MODULE_NAME}/${CHILDREN_MODULE_NAME}/HandSizeUnderXCondition.hpp
         )
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
@@ -23,6 +25,6 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_edges
-            wgs_components
+        wgs_edges
+        wgs_components
         )

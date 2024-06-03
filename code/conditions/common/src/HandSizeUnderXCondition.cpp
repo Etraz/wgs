@@ -1,4 +1,4 @@
-#include "conditions/blackjack/HandSizeUnderXCondition.hpp"
+#include "../include/conditions/common/HandSizeUnderXCondition.hpp"
 
 HandSizeUnderXCondition::HandSizeUnderXCondition(size_t x) : x{x} {}
 

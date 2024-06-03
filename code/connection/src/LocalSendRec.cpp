@@ -22,7 +22,7 @@ std::string LocalSendRec::askForMove(const std::string &message) {
     while (true) {
         std::cout << toPrint << "\nPLEASE CHOOSE YOUR MOVE.\nYOUR MOVE: ";
         std::cin >> move;
-        if (move > 0 and move <= numberOfMoves)
+        if (move >= 0 and move <= numberOfMoves)
             break;
         std::cout << "INCORRECT INPUT" << std::endl;
     }
@@ -36,6 +36,8 @@ std::string LocalSendRec::sendRec(std::string message, PlayerAddress address) {
         response = askForBet(std::stoi(message.substr(7)));
     else if (message.starts_with("AskMove:"))
         response = askForMove(message);
+    else if (message.starts_with("AskCardToPlay:"))
+        response = askForCardToPlay(message);
     if (response.empty())
         throw std::runtime_error{"Messege type not recognized"};
     return response;
@@ -44,4 +46,18 @@ std::string LocalSendRec::sendRec(std::string message, PlayerAddress address) {
 void LocalSendRec::send(std::string message, PlayerAddress address) {
     if (address != 0)
         std::cout << "Send to " << address << '\n' << message << std::endl;
+}
+
+std::string LocalSendRec::askForCardToPlay(const std::string &message) {
+    size_t startOfMessageToPrint = message.find(';');
+    int cardIndex{};
+    std::string toPrint = message.substr(startOfMessageToPrint + 1);
+    while (true) {
+        std::cout << toPrint << "\nPLEASE CHOOSE CARD TO PLAY.\nYOUR CARD: ";
+        std::cin >> cardIndex;
+        if (cardIndex >= 0)
+            break;
+        std::cout << "INCORRECT INPUT" << std::endl;
+    }
+    return "AskCardToPlayResp:" + std::to_string(cardIndex);
 }

@@ -2,6 +2,7 @@
 
 #include "edges/Action.hpp"
 
-class PlayerDrawsReversedCardAction : public Action {
+class EndAuctionAction : public Action {
+public:
     void run(ComponentProvider &) override;
 };

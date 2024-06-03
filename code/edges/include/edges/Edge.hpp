@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components/componentProvider.hpp"
+#include "components/ComponentProvider.hpp"
 #include "Action.hpp"
 #include "Condition.hpp"
 
@@ -17,5 +17,5 @@ public:
 
     int choose(ComponentProvider &);
 
-    std::string getMessage() const;
+    [[nodiscard]] std::string getMessage() const;
 };

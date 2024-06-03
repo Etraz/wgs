@@ -1,4 +1,4 @@
-#include "actions/blackjack/MultiAction.hpp"
+#include "actions/common/MultiAction.hpp"
 
 #include <utility>
 

@@ -6,7 +6,7 @@ class HandScoreAtLeastXCondition : public Condition {
 private:
     const int x;
 public:
-    HandScoreAtLeastXCondition(int);
+    explicit HandScoreAtLeastXCondition(int);
 
     bool check(ComponentProvider &) override;
 };

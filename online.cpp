@@ -14,7 +14,7 @@ int main(int, char **) {
     std::cout << "Table added!\n";
     // PASS communication into the game!
 
-    auto & lcm = cm.getTable(0);
+    auto &lcm = cm.getTable(0);
 
     std::unique_ptr<ConcreteSendRec> sendRec = std::make_unique<ConcreteSendRec>(ConcreteSendRec{lcm});
     PlayerIndex numberOfPlayers = 2;

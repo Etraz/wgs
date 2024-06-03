@@ -2,6 +2,7 @@
 
 #include "edges/Action.hpp"
 
-class ShowDealersCardsAction : public Action {
+class BridgeRestartAction : public Action {
+public:
     void run(ComponentProvider &) override;
 };

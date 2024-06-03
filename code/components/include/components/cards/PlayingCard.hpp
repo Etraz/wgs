@@ -6,7 +6,7 @@
 #include "CardHolder.hpp"
 
 enum PlayingCardColor {
-    spades = 1, hearts = 2, diamonds = 4, clubs = 8
+    clubs = 0, diamonds = 1, hearts = 2, spades = 4, noTrump = 8
 };
 
 inline const char *ToString(PlayingCardColor c) {
@@ -19,6 +19,8 @@ inline const char *ToString(PlayingCardColor c) {
             return "diamonds";
         case clubs:
             return "clubs";
+        case noTrump:
+            return "noTrump";
         default:
             return "[Unknown color]";
     }
@@ -31,19 +33,20 @@ private:
 public:
     PlayingCard(int, PlayingCardColor);
 
-    [[nodiscard]] [[nodiscard]] int getNumber() const;
+    [[nodiscard]] int getNumber() const;
 
-    [[nodiscard]] [[nodiscard]] PlayingCardColor getColor() const;
+    [[nodiscard]] PlayingCardColor getColor() const;
 
 
-    [[nodiscard]] [[nodiscard]] std::string serialize() const override;
+    [[nodiscard]] std::string serialize() const override;
+
+    [[nodiscard]] std::string serializeReverse() const override;
 
 
     friend void swap(PlayingCard &A, PlayingCard &B) {
         using std::swap;
         swap(A.color, B.color);
         swap(A.number, B.number);
-        swap(A.shown, B.shown);
     }
 };
 

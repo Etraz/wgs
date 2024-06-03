@@ -4,25 +4,24 @@
 #include <chrono>
 #include "game/Game.hpp"
 #include "actions/blackjack/GetBetFromPlayerAction.hpp"
-#include "actions/blackjack/PlayerDrawsCardAction.hpp"
-#include "actions/blackjack/PlayerDrawsReversedCardAction.hpp"
+#include "actions/common/PlayerDrawsCardAction.hpp"
 #include "actions/common/EmptyAction.hpp"
 #include "actions/blackjack/DoublePlayersBetAction.hpp"
-#include "actions/blackjack/ShowDealersCardsAction.hpp"
+#include "actions/common/ShowPlayersHandAction.hpp"
 #include "actions/blackjack/DoubleAndReturnPlayersBetAction.hpp"
-#include "actions/blackjack/EndGameAction.hpp"
-#include "actions/blackjack/SendMessageAction.hpp"
-#include "actions/blackjack/RestartAction.hpp"
+#include "actions/common/EndGameAction.hpp"
+#include "actions/common/SendMessageAction.hpp"
+#include "actions/blackjack/BlackjackRestartAction.hpp"
 #include "actions/blackjack/ReturnPlayerBetAction.hpp"
 #include "conditions/common/AlwaysTrueCondition.hpp"
-#include "conditions/blackjack/HandSizeUnderXCondition.hpp"
+#include "conditions/common/HandSizeUnderXCondition.hpp"
 #include "conditions/blackjack/PlayerCanDoubleBetCondition.hpp"
 #include "conditions/common/AndCondition.hpp"
 #include "conditions/blackjack/HandScoreAtLeastXCondition.hpp"
 #include "conditions/common/NotCondition.hpp"
 #include "conditions/blackjack/RelationBetweenPlayerAndDealerHandCondition.hpp"
-#include "actions/blackjack/GoToNextPlayerAction.hpp"
-#include "actions/blackjack/MultiAction.hpp"
+#include "actions/common/GoToNextPlayerAction.hpp"
+#include "actions/common/MultiAction.hpp"
 #include "actions/blackjack/PlayerSplitsAction.hpp"
 #include "actions/blackjack/ReturnHalfOfPlayerBetAction.hpp"
 #include "conditions/blackjack/CurrentPlayerIsXCondition.hpp"
@@ -54,19 +53,17 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
 
     std::shared_ptr<ComponentProvider> componentProvider = std::make_shared<ComponentProvider>(ComponentProvider{});
 
-    componentProvider->addComponent(
-            std::make_unique<HandsComponent>(HandsComponent(componentProvider, numberOfPlayers)), "HandsComponent");
-    componentProvider->addComponent(std::make_unique<ConnectionComponent>(ConnectionComponent(numberOfPlayers,
-                                                                                              std::move(sendRec),
-                                                                                              std::move(
-                                                                                                      orginalAddreses))),
+    componentProvider->addComponent(std::make_unique<HandsComponent>(
+            HandsComponent(componentProvider, numberOfPlayers)), "HandsComponent");
+    componentProvider->addComponent(std::make_unique<ConnectionComponent>(
+                                            ConnectionComponent(numberOfPlayers, std::move(sendRec), std::move(orginalAddreses))),
                                     "ConnectionComponent");
-    componentProvider->addComponent(std::make_unique<ChipsComponent>(ChipsComponent(numberOfPlayers)),
-                                    "ChipsComponent");
-    componentProvider->addComponent(std::make_unique<CardDeck>(CardDeck{std::move(deck), e}),
-                                    "CardDeck");
-    componentProvider->addComponent(
-            std::make_unique<PlayerComponent>(PlayerComponent{componentProvider, numberOfPlayers}), "PlayersComponent");
+    componentProvider->addComponent(std::make_unique<ChipsComponent>(
+            ChipsComponent(numberOfPlayers)), "ChipsComponent");
+    componentProvider->addComponent(std::make_unique<CardDeck>(
+            CardDeck{std::move(deck), e}), "CardDeck");
+    componentProvider->addComponent(std::make_unique<PlayerComponent>(
+            PlayerComponent{componentProvider, numberOfPlayers}), "PlayersComponent");
 
     auto edges = std::make_unique<std::vector<std::vector<Edge>>>(std::vector<std::vector<Edge>>{});
     edges->resize(12);
@@ -74,18 +71,18 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     auto emptyAction = std::make_shared<EmptyAction>(EmptyAction{});
 
     auto getBetFromPlayerAction = std::make_shared<GetBetFromPlayerAction>(GetBetFromPlayerAction{});
-    auto playerDrawsCardAction = std::make_shared<PlayerDrawsCardAction>(PlayerDrawsCardAction{});
+    auto playerDrawsCardAction = std::make_shared<PlayerDrawsCardAction>(PlayerDrawsCardAction{false});
     auto goToNextPlayerAction = std::make_shared<GoToNextPlayerAction>(GoToNextPlayerAction{});
     auto playerBetsAndDrawsAction = std::make_shared<MultiAction>(MultiAction({getBetFromPlayerAction,
                                                                                playerDrawsCardAction,
                                                                                playerDrawsCardAction,
                                                                                goToNextPlayerAction}));
-    auto playerDrawsReversedCardAction = std::make_shared<PlayerDrawsReversedCardAction>(
-            PlayerDrawsReversedCardAction{});
+    auto playerDrawsReversedCardAction = std::make_shared<PlayerDrawsCardAction>(
+            PlayerDrawsCardAction{true});
     auto dealerDrawsCardsAction = std::make_shared<MultiAction>(MultiAction({playerDrawsCardAction,
                                                                              playerDrawsReversedCardAction,
                                                                              goToNextPlayerAction}));
-    auto showDealersCardsAction = std::make_shared<ShowDealersCardsAction>(ShowDealersCardsAction{});
+    auto showDealersCardsAction = std::make_shared<ShowPlayersHandAction>(ShowPlayersHandAction{});
     auto doublePlayersBetAction = std::make_shared<DoublePlayersBetAction>(DoublePlayersBetAction{});
     auto playerDoublesAction = std::make_shared<MultiAction>(MultiAction({doublePlayersBetAction,
                                                                           playerDrawsCardAction,
@@ -106,7 +103,7 @@ Game BlackjackFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     auto playerTiedAction = std::make_shared<MultiAction>(MultiAction({returnPlayerBetAction,
                                                                        goToNextPlayerAction}));
     auto endGameAction = std::make_shared<EndGameAction>(EndGameAction{});
-    auto restartAction = std::make_shared<RestartAction>(RestartAction{});
+    auto restartAction = std::make_shared<BlackjackRestartAction>(BlackjackRestartAction{});
 
     auto alwaysTrueCondition = std::make_shared<AlwaysTrueCondition>(AlwaysTrueCondition{});
     auto dealerIsCurrentPlayerCondition = std::make_shared<CurrentPlayerIsXCondition>(CurrentPlayerIsXCondition{0});

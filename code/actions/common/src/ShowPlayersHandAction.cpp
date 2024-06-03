@@ -1,6 +1,6 @@
-#include "actions/blackjack/ShowDealersCardsAction.hpp"
+#include "actions/common/ShowPlayersHandAction.hpp"
 
-void ShowDealersCardsAction::run(ComponentProvider &componentProvider) {
+void ShowPlayersHandAction::run(ComponentProvider &componentProvider) {
     auto &hands = dynamic_cast<HandsComponent &>(componentProvider.getComponent("HandsComponent"));
     hands.showPlayersCards(0);
 }

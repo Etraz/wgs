@@ -1,5 +1,6 @@
-#include "code/factories/include/factories/BlackjackFactory.hpp"
-#include "code/connection/include/connection/LocalSendRec.hpp"
+#include "factories/BridgeFactory.hpp"
+#include "connection/LocalSendRec.hpp"
+#include "components/cards/BridgeCall.hpp"
 
 int main(int, char **) {
     std::vector<PlayerAddress> addresses{};
@@ -7,6 +8,6 @@ int main(int, char **) {
     addresses.push_back(2);
     addresses.push_back(3);
     addresses.push_back(4);
-    Game game = BlackjackFactory::make(std::make_unique<LocalSendRec>(LocalSendRec{}), addresses);
+    Game game = BridgeFactory::make(std::make_unique<LocalSendRec>(LocalSendRec{}), addresses);
     game.start();
 }

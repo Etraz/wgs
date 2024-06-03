@@ -7,11 +7,11 @@ set(SOURCES
         src/ConnectionComponent.cpp
         src/HandsComponent.cpp
         src/PlayerComponent.cpp
-        src/cards/Card.cpp
         src/cards/CardDeck.cpp
         src/cards/CardHolder.cpp
         src/cards/PlayingCard.cpp
-        )
+        src/BridgeAuctionComponent.cpp
+        src/cards/BridgeCall.cpp src/BridgeTricksComponent.cpp)
 
 
 set(HEADERS
@@ -25,7 +25,9 @@ set(HEADERS
         include/${MODULE_NAME}/cards/CardDeck.hpp
         include/${MODULE_NAME}/cards/CardHolder.hpp
         include/${MODULE_NAME}/cards/PlayingCard.hpp
-        )
+        include/${MODULE_NAME}/BridgeAuctionComponent.hpp
+        include/${MODULE_NAME}/cards/BridgeCall.hpp
+        include/${MODULE_NAME}/BridgeTricksComponent.hpp)
 
 add_library(${MODULE_NAME} ${SOURCES} ${HEADERS})
 add_library(wgs_${MODULE_NAME} ALIAS ${MODULE_NAME})
@@ -34,5 +36,5 @@ target_include_directories(${MODULE_NAME} PUBLIC include PRIVATE src)
 
 target_link_libraries(${MODULE_NAME}
         PUBLIC
-            wgs_connection
+        wgs_connection
         )

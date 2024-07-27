@@ -14,22 +14,24 @@ PlayingCardColor PlayingCard::getColor() const {
 
 
 std::string PlayingCard::serialize() const {
-    std::string toReturn = "playing_card";
-    switch (color) {
-        case spades:
-            toReturn += std::to_string(number - 1);
+    std::string toReturn = "playingCard_";
+    toReturn += ToString(color);
+    toReturn += '_';
+    switch (number) {
+        case 11:
+            toReturn += "jack";
             break;
-        case hearts:
-            toReturn += std::to_string(number + 12);
+        case 12:
+            toReturn += "queen";
             break;
-        case diamonds:
-            toReturn += std::to_string(number + 25);
+        case 13:
+            toReturn += "king";
             break;
-        case clubs:
-            toReturn += std::to_string(number + 38);
+        case 14:
+            toReturn += "ace";
             break;
-        case noTrump:
-            throw std::runtime_error("wrong suite");
+        default:
+            toReturn += std::to_string(number);
     }
     return toReturn;
 }
@@ -59,7 +61,7 @@ std::string toString(const PlayingCard &card) {
 }
 
 std::string PlayingCard::serializeReverse() const {
-    return "playing_card0";
+    return "playing_card/reversed";
 }
 
 std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand) {

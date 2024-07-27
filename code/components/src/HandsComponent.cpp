@@ -41,7 +41,7 @@ ConnectionComponent &HandsComponent::getConnectionComponent() {
 }
 
 void HandsComponent::restart() {
-    for (size_t i = 0; i < hands.size(); i++) {
+    for (size_t i = hands.size() - 1; i >= 0; i--) {
         clearPlayersHand(i);
         if (i > numberOfPlayers)
             getConnectionComponent().sendBroadcast("ActionRemoveHand:" + std::to_string(i));

@@ -44,7 +44,7 @@ Game BridgeFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     componentProvider->addComponent(std::make_unique<BridgeTricksComponent>(
             BridgeTricksComponent()), "TricksComponent");
     componentProvider->addComponent(std::make_unique<BridgeAuctionComponent>(
-            BridgeAuctionComponent()), "TricksComponent");
+            BridgeAuctionComponent()), "AuctionComponent");
     componentProvider->addComponent(std::make_unique<CardDeck>(
             CardDeck{std::move(deck), e}), "CardDeck");
     componentProvider->addComponent(std::make_unique<PlayerComponent>(
@@ -87,15 +87,20 @@ Game BridgeFactory::make(std::unique_ptr<AbstractSendRec> &&sendRec,
     auto currentTrickIsNotFullCondition = std::make_shared<NotCondition>(NotCondition{currentTrickIsFullCondition});
 
     // AUCTION
-    edges->at(0).push_back(Edge("", getCallAction, auctionToContinueCondition, 0));
-    edges->at(1).push_back(Edge("", endAuctionAction, auctionToEndCondition, 1));
+    // Get calls from players untill auctionToEndCondition is true (3/4 Passes in the row)
+    createEdge(0, bridgeDealAction, alwaysTrueCondition, 1);
+    createEdge(1, getCallAction, auctionToContinueCondition, 1);
+    createEdge(1, endAuctionAction, auctionToEndCondition, 2);
 
     // TRICKS
-    edges->at(1).push_back(Edge("", bridgeDealAction, alwaysTrueCondition, 2));
-    edges->at(2).push_back(Edge("", startTrickAction, handIsNotEmptyCondition, 3));
-    edges->at(2).push_back(Edge("", restartAction, handIsEmptyCondition, 0));
-    edges->at(3).push_back(Edge("", playNextCardAction, currentTrickIsNotFullCondition, 3));
-    edges->at(3).push_back(Edge("", endTrickAction, currentTrickIsFullCondition, 2));
+    // Start new trick if players still have cards. If hands are empty restart the game
+    createEdge(2, startTrickAction, handIsNotEmptyCondition, 3);
+    createEdge(2, restartAction, handIsEmptyCondition, 0);
+    
+    // Until current player is not player that started actulal trick get card from him
+    // and go to next player.
+    createEdge(3, playNextCardAction, currentTrickIsNotFullCondition, 3);
+    createEdge(3, endTrickAction, currentTrickIsFullCondition, 2);
 
 
     auto graph = std::make_unique<Graph>(Graph{std::move(edges), componentProvider, 0});

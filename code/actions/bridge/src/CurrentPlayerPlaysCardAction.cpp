@@ -6,7 +6,7 @@ void CurrentPlayerPlaysCardAction::run(ComponentProvider &componentProvider) {
     auto &players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
 
-    PlayerIndex currentPlayer = players.getCurrentPlayer();
+    PlayerIndex currentPlayer = players.getCurrentPlayer(), playerToSend{currentPlayer};
     auto &hand = hands.getHand(currentPlayer);
 
     PlayingCardColor correctColor = dynamic_cast<const PlayingCard &>(
@@ -33,7 +33,9 @@ void CurrentPlayerPlaysCardAction::run(ComponentProvider &componentProvider) {
         message += ';';
         message += std::to_string(index);
     }
-    response = connection.sendRec(message, currentPlayer);
+    if (currentPlayer == (tricks.getDeclaringPlayer() + 2) % 4)
+        playerToSend = tricks.getDeclaringPlayer();
+    response = connection.sendRec(message, playerToSend);
     size_t playedIndex = std::stoi(response.substr(18));
 
     hands.addOpenCardToPlayer(currentPlayer + 4, hands.removeAndReturnGivenCardFromPlayer(currentPlayer, playedIndex));

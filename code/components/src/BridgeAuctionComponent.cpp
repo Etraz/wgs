@@ -64,3 +64,12 @@ bool BridgeAuctionComponent::canNextBeReDouble() const {
     type = ite->second.getType();
     return (type == doubleCall);
 }
+
+PlayerIndex BridgeAuctionComponent::getPlayerThatWillBePlaying() const {
+    auto lastCall = getLastNormalCall();
+
+    for (size_t i = (lastCall.first % 2); i < calls.size(); i++)
+        if (calls[i].second.getSuite() == lastCall.second.getSuite())
+            return (i % 2);
+    return lastCall.first;
+}

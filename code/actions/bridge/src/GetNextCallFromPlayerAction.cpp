@@ -5,12 +5,11 @@ void GetNextCallFromPlayerAction::run(ComponentProvider &componentProvider) {
     auto &connection = dynamic_cast<ConnectionComponent &>(componentProvider.getComponent("ConnectionComponent"));
     auto &players = dynamic_cast<PlayerComponent &>(componentProvider.getComponent("PlayersComponent"));
 
-    // AskBridgeCall:[lastCallNumber];[lastCallSuite];[lastCallPlayer];[canDouble];[canReDouble]
+    // AskBridgeCall:[lastCallNumber];[lastCallSuite];[canDouble];[canReDouble]
     auto lastCallInfo = auction.getLastNormalCall();
     bool canDouble = auction.canNextBeDouble(), canReDouble = auction.canNextBeReDouble();
     std::string mess = "AskBridgeCall:" + std::to_string(lastCallInfo.second.getNumber()) + ';'
-                       + ToString(lastCallInfo.second.getSuite()) + ';'
-                       + std::to_string(lastCallInfo.first) + ';'
+                       + std::to_string(static_cast<int>(lastCallInfo.second.getSuite())) + ';'
                        + (canDouble ? '1' : '0') + ';' + (canReDouble ? '1' : '0');
 
     // AskBridgeCallResp:[nextCallNumber];[nextCallSuite];[nextCallType]
@@ -19,7 +18,8 @@ void GetNextCallFromPlayerAction::run(ComponentProvider &componentProvider) {
     auction.addNextCall(players.getCurrentPlayer(), nextCall);
 
     mess = "ActionBridgeCall:" + std::to_string(nextCall.getNumber()) + ';'
-           + ToString(nextCall.getSuite()) + ';'
+           + std::to_string(static_cast<int>(nextCall.getSuite())) + ';'
+           + std::to_string(static_cast<int>(nextCall.getType())) + ';'
            + std::to_string(players.getCurrentPlayer());
 
     connection.sendBroadcast(mess);

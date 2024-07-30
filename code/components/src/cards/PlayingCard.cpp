@@ -61,7 +61,7 @@ std::string toString(const PlayingCard &card) {
 }
 
 std::string PlayingCard::serializeReverse() const {
-    return "playing_card/reversed";
+    return "playingCard_reverse";
 }
 
 std::string toString(const std::vector<std::unique_ptr<CardHolder>> &hand) {

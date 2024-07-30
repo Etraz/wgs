@@ -9,15 +9,18 @@ void EndAuctionAction::run(ComponentProvider &componentProvider) {
 
     auto endingCallInfo = auction.getLastNormalCall();
     tricks.setContractAndDeclaringPlayer(endingCallInfo.second, endingCallInfo.first);
+    auto playerThatWillBePlaying = auction.getPlayerThatWillBePlaying();
 
-    while (players.getCurrentPlayer() != endingCallInfo.first)
+    while (players.getCurrentPlayer() != playerThatWillBePlaying)
         players.nextPlayer();
+    players.nextPlayer();
+
     hands.showPlayersCards((endingCallInfo.first + 2) % 4);
 
     std::string mess = "ActionBridgeAuctionEnd:"
                        + std::to_string(endingCallInfo.second.getNumber()) + ';'
                        + ToString(endingCallInfo.second.getSuite()) + ';'
-                       + std::to_string(endingCallInfo.first);
+                       + std::to_string(playerThatWillBePlaying);
 
     connection.sendBroadcast(mess);
 

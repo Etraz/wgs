@@ -21,5 +21,7 @@ public:
 
     [[nodiscard]] bool canNextBeReDouble() const;
 
+    [[nodiscard]] PlayerIndex getPlayerThatWillBePlaying() const;
+
     void restart();
 };
